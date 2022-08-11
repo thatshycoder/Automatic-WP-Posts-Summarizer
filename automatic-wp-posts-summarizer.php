@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Plugin Name:		Automatic WP Posts Summarizer
  * Author:		    Shycoder
@@ -8,11 +9,18 @@
  * Plugin URI:		https://wordpress.org/plugins/automatic-wp-posts-summarizer
  */
 
+use AWPPS\AWPPS;
+
 // Exit if accessed directly
 defined('ABSPATH') || exit;
 
-require_once(plugin_dir_path(__FILE__) . 'includes/setup.php');
+defined('AWPPS_DIR') || define('AWPPS_DIR', plugin_dir_path(__FILE__));
+defined('AWPPS_ENCRYPTION_METHOD') || define('AWPPS_ENCRYPTION_METHOD', 'AES-256-CBC');
 
-register_activation_hook( __FILE__, 'AWPPS::activate' );
+require_once AWPPS_DIR . 'includes/AWPPS.php';
+$awpps = new AWPPS();
 
-add_action('plugins_loaded', 'AWPPS::load');
+register_activation_hook(__FILE__, [$awpps, 'activate']);
+register_deactivation_hook(__FILE__, [$awpps, 'deactivate']);
+
+add_action('plugins_loaded', [$awpps, 'load_settings_page']);

@@ -1,9 +1,7 @@
 <?php
+namespace AWPPS\Api;
 
-/**
- * Consumes meaningcloud API
- */
-class AWPPS_API
+class MeaningCloudApi
 {
 
     public static function get_text_summary($text): string

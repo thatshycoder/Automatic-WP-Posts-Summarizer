@@ -1,6 +1,9 @@
 <?php
+namespace AWPPS;
 
-class AWPPS_Summary {
+defined('ABSPATH') || exit;
+
+class Summary {
 
     public static function save_post_summary() : void {
 

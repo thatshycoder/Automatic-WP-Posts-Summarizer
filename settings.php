@@ -77,39 +77,3 @@ function awpps_settings_page_html()
 <?php
 
 }
-
-function awpps_sanitize_input($inputs)
-{
-
-    $options = get_option('awpps_options');
-
-    $sanitized_input = [];
-
-    foreach ($inputs as $input_key => $input_value) {
-
-        if (empty($input_value)) {
-            $sanitized_input[$input_key] = $options[$input_key];
-        } else {
-
-            $input_value = str_replace(' ', '', $input_value);
-            $input_value = trim(strip_tags(stripslashes($input_value)));
-            $input_value = sanitize_text_field($input_value);
-
-            if ($input_key !== 'awpps_subscription_product_id') {
-
-                $input_value = awpps_encrypt_mc_keys($input_value);
-            }
-
-            $sanitized_input[$input_key] = $input_value;
-        }
-    }
-
-    return $sanitized_input;
-}
-
-function awpps_encrypt_mc_keys($key)
-{
-
-    $security = new DAHACH_Security();
-    return $security->encrypt($key);
-}
