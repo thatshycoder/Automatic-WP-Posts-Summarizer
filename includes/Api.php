@@ -1,5 +1,5 @@
 <?php
-namespace AWPPS\Api;
+namespace Awpps\Api;
 
 class MeaningCloudApi
 {
