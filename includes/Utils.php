@@ -1,34 +1,36 @@
 <?php
 
-namespace AWPPS;
+namespace Awpps;
 
 defined('ABSPATH') || exit;
 
 class Utils
 {
-    function sanitize_inputs($inputs)
+    // TODO: Complete sanitizer
+    public static function sanitize_inputs($inputs): array
     {
-
+        $sanitized_input = [];
         $options = get_option('awpps_options');
 
-        $sanitized_input = [];
+        if ($options) {
 
-        foreach ($inputs as $input_key => $input_value) {
+            foreach ($inputs as $input_key => $input_value) {
 
-            if (empty($input_value)) {
-                $sanitized_input[$input_key] = $options[$input_key];
-            } else {
+                if (empty($input_value)) {
+                    $sanitized_input[$input_key] = $options[$input_key];
+                } else {
 
-                $input_value = str_replace(' ', '', $input_value);
-                $input_value = trim(strip_tags(stripslashes($input_value)));
-                $input_value = sanitize_text_field($input_value);
+                    $input_value = str_replace(' ', '', $input_value);
+                    $input_value = trim(strip_tags(stripslashes($input_value)));
+                    $input_value = sanitize_text_field($input_value);
 
-                if ($input_key !== 'awpps_subscription_product_id') {
+                    if ($input_key !== 'awpps_subscription_product_id') {
 
-                    $input_value = $this->encrypt_keys($input_value);
+                        //$input_value = $this->encrypt_keys($input_value);
+                    }
+
+                    $sanitized_input[$input_key] = $input_value;
                 }
-
-                $sanitized_input[$input_key] = $input_value;
             }
         }
 
