@@ -4,7 +4,7 @@ namespace Awpps\Api;
 class MeaningCloudApi
 {
 
-    public static function get_text_summary($text): string
+    public static function get_text_summary($text, $key): string
     {
         $summary = '';
 

@@ -9,17 +9,22 @@ class Awpps
     private static $instance;
 
     /**
-     * Settings class instance
-     * 
+     * Settings instance
      * @var Settings
      */
     private $settings;
 
+    /**
+     * Summarizer instance
+     * @var Summarizer
+     */
     private $summarizer;
 
     private function __construct()
     {
         $this->settings = new Settings();
+        $this->summarizer = new Summarizer();
+        $this->hooks();
         $this->hooks();
     }
 
@@ -35,7 +40,7 @@ class Awpps
 
     public static function activate(): void
     {
-        // create needed db tables
+        // create needed db table
     }
 
     public static function deactivate(): void
