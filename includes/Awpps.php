@@ -25,7 +25,7 @@ class Awpps
         $this->settings = new Settings();
         $this->summarizer = new Summarizer();
         $this->hooks();
-        $this->hooks();
+        $this->summarizer->hooks();
     }
 
     public static function getInstance(): self
@@ -38,12 +38,13 @@ class Awpps
         return self::$instance;
     }
 
-    public static function activate(): void
+    public function activate(): void
     {
         // create needed db table
+        $this->create_summarizer_table();
     }
 
-    public static function deactivate(): void
+    public function deactivate(): void
     {
         // cleanup db
     }
@@ -56,5 +57,17 @@ class Awpps
     public function load_settings_page(): void
     {
         $this->settings->hooks();
+    }
+
+    public function create_summarizer_table()
+    {
+        global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
+
+        $sql = "( `post_id` INT NOT NULL , `summary` TEXT NOT NULL , PRIMARY KEY (`post_id`))";
+        $query = 'CREATE TABLE ' . $wpdb->prefix . AWPPS_SUMMARIZER_TABLE . $sql . $charset_collate;
+
+        require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+        maybe_create_table($wpdb->prefix . AWPPS_SUMMARIZER_TABLE, $query);
     }
 }

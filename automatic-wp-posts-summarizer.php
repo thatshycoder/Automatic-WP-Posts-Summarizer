@@ -15,7 +15,8 @@
 defined('ABSPATH') || exit;
 
 defined('AWPPS_DIR') || define('AWPPS_DIR', plugin_dir_path(__FILE__));
-defined('AWPPS_ENCRYPTION_METHOD') || define('AWPPS_ENCRYPTION_METHOD', 'AES-256-CBC');
+defined('AWPPS_ENCRYPTION_METHOD')  || define('AWPPS_ENCRYPTION_METHOD', 'AES-256-CBC');
+defined('AWPPS_SUMMARIZER_TABLE')   || define('AWPPS_SUMMARIZER_TABLE', 'awpps_summarizer');
 
 require_once 'autoload.php';
 
