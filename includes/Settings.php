@@ -30,6 +30,28 @@ class Settings
         );
 
         add_settings_field(
+            'awpps_enable_summarizer',
+            __('Enable Summarizer', 'awpps'),
+            [$this, 'awpps_enable_summarizer_field_cb'],
+            'awpps',
+            'awpps',
+            array(
+                'label_for'         => 'awpps_enable_summarizer'
+            )
+        );
+
+        add_settings_field(
+            'awpps_summary_position',
+            __('Display Summary', 'awpps'),
+            [$this, 'awpps_summary_position_field_cb'],
+            'awpps',
+            'awpps',
+            array(
+                'label_for'         => 'awpps_summary_position'
+            )
+        );
+
+        add_settings_field(
             'awpps_mc_api_key',
             __('MeaningCloud API Key', 'awpps'),
             [$this, 'awpps_mc_api_key_field_cb'],
@@ -41,15 +63,35 @@ class Settings
         );
     }
 
+    public function awpps_summary_position_field_cb($args)
+    {
+        $options = get_option('awpps_options');
+?>
+        <div class="">
+            <select name="awpps_options[<?php echo esc_attr($args['label_for']); ?>]">
+                <option value="before">Before Post Content</option>
+                <option value="before">After Post Content</option>
+            </select>
+        </div>
+    <?php
+    }
+
+    public function awpps_enable_summarizer_field_cb($args)
+    {
+        $options = get_option('awpps_options');
+    ?>
+        <div class="">
+            <input type="checkbox" name="awpps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($options[$args['label_for']]) ? $options[$args['label_for']] : ''; ?>">
+        </div>
+    <?php
+    }
 
     public function awpps_mc_api_key_field_cb($args)
     {
         $options = get_option('awpps_options');
-?>
-        <div class="form-group form-row">
-            <div class="col-md-6">
-                <input type="text" name="awpps_options[<?php echo esc_attr($args['label_for']); ?>]" class="form-control" value="<?php echo isset($options[$args['label_for']]) ? $options[$args['label_for']] : ''; ?>">
-            </div>
+    ?>
+        <div class="">
+            <input type="text" name="awpps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($options[$args['label_for']]) ? $options[$args['label_for']] : ''; ?>">
         </div>
     <?php
     }
