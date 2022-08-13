@@ -2,16 +2,12 @@
 
 namespace Awpps;
 
-use Awpps\Utils as Utils;
-
 defined('ABSPATH') || exit;
+
+use Awpps\Utils as Utils;
 
 class Settings
 {
-    public function __construct()
-    {
-    }
-
     public function hooks()
     {
         add_action('admin_menu', [$this, 'awpps_add_settings_menu']);

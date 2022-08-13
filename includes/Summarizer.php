@@ -21,7 +21,7 @@ class Summarizer
 
     public function hooks(): void
     {
-        add_action('save_post', [$this, 'save_post_summary']);
+        add_action('edit_post', [$this, 'save_post_summary']);
     }
 
     public function save_post_summary($post_id): mixed
@@ -30,11 +30,14 @@ class Summarizer
 
         $sentences = 2;
         $post = get_post($post_id);
+
         $post_summary = $this->get_post_summary($post->post_content, $sentences);
 
         if (!empty($post_summary)) {
 
             $summary_data = ['post_id' => $post_id, 'summary' => $post_summary];
+
+            // check if summary exists then uodate it or
             return $wpdb->insert($wpdb->prefix . AWPPS_SUMMARIZER_TABLE, $summary_data);
         }
 
