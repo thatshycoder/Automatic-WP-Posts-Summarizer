@@ -36,8 +36,8 @@ class Api
                 throw new Exception("Error fetching summary");
             }
         } catch (Exception $e) {
-            // log error
-            exit($e);
+            // show error
+            error_log($e);
         }
 
         return $summary;

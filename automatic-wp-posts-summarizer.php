@@ -22,7 +22,7 @@ require_once 'autoload.php';
 
 if (empty($GLOBALS['awpps'])) {
 
-    $GLOBALS['awpps'] = Awpps\Awpps::getInstance();
+    $GLOBALS['awpps'] = Awpps\Awpps::get_instance();
 
     register_activation_hook(__FILE__, [$GLOBALS['awpps'], 'activate']);
     register_deactivation_hook(__FILE__, [$GLOBALS['awpps'], 'deactivate']);
