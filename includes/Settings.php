@@ -1,98 +1,122 @@
 <?php
 
-namespace Awpps;
+namespace Awps;
 
 defined('ABSPATH') || exit;
 
-use Awpps\Utils as Utils;
+use Awps\Utils as Utils;
 
 class Settings
 {
+    private $options;
+
+    public function __construct()
+    {
+        $this->options = get_option('awps_options');
+    }
+
     public function hooks()
     {
-        add_action('admin_menu', [$this, 'awpps_add_settings_menu']);
-        add_action('admin_init', [$this, 'awpps_settings_init']);
+        add_action('admin_menu', [$this, 'awps_add_settings_menu']);
+        add_action('admin_init', [$this, 'awps_settings_init']);
     }
 
-    public function awpps_settings_init()
+    public function awps_settings_init()
     {
-        register_setting('awpps', 'awpps_options',  ['sanitize_callback' => [$this, 'sanitize_inputs']]);
+        register_setting('awps', 'awps_options');
 
         add_settings_section(
-            'awpps',
+            'awps',
             '',
             '',
-            'awpps'
+            'awps'
         );
 
         add_settings_field(
-            'awpps_enable_summarizer',
-            __('Enable Summarizer', 'awpps'),
-            [$this, 'awpps_enable_summarizer_field_cb'],
-            'awpps',
-            'awpps',
+            'awps_enable_summarizer',
+            __('Enable Summarizer', 'awps'),
+            [$this, 'awps_enable_summarizer_field_cb'],
+            'awps',
+            'awps',
             array(
-                'label_for'         => 'awpps_enable_summarizer'
+                'label_for'         => 'awps_enable_summarizer'
             )
         );
 
         add_settings_field(
-            'awpps_summary_position',
-            __('Display Summary', 'awpps'),
-            [$this, 'awpps_summary_position_field_cb'],
-            'awpps',
-            'awpps',
+            'awps_summary_position',
+            __('Display Summary', 'awps'),
+            [$this, 'awps_summary_position_field_cb'],
+            'awps',
+            'awps',
             array(
-                'label_for'         => 'awpps_summary_position'
+                'label_for'         => 'awps_summary_position'
             )
         );
 
         add_settings_field(
-            'awpps_mc_api_key',
-            __('MeaningCloud API Key', 'awpps'),
-            [$this, 'awpps_mc_api_key_field_cb'],
-            'awpps',
-            'awpps',
+            'awps_mc_api_key',
+            __('MeaningCloud API Key', 'awps'),
+            [$this, 'awps_mc_api_key_field_cb'],
+            'awps',
+            'awps',
             array(
-                'label_for'         => 'awpps_mc_api_key'
+                'label_for'         => 'awps_mc_api_key'
             )
         );
     }
 
-    public function awpps_summary_position_field_cb($args)
+    public function awps_summary_position_field_cb($args)
     {
-        $options = get_option('awpps_options');
+        $before = '';
+        $after = '';
+
+        if (array_key_exists($args['label_for'], $this->options)) {
+
+            if ($this->options[$args['label_for']] === 'before') {
+                $before = 'selected';
+            } else {
+                $after = 'selected';
+            }
+        }
+
 ?>
         <div class="">
-            <select name="awpps_options[<?php echo esc_attr($args['label_for']); ?>]">
-                <option value="before">Before Post Content</option>
-                <option value="before">After Post Content</option>
+            <select name="awps_options[<?php echo esc_attr($args['label_for']); ?>]">
+                <option value="before" <?php echo $before ?>>Before Post Content</option>
+                <option value="after" <?php echo $after ?>>After Post Content</option>
             </select>
         </div>
     <?php
     }
 
-    public function awpps_enable_summarizer_field_cb($args)
+    public function awps_enable_summarizer_field_cb($args)
     {
-        $options = get_option('awpps_options');
+        $checked = '';
+
+        if (array_key_exists($args['label_for'], $this->options)) {
+            if ($this->options[$args['label_for']] === 'checked') {
+                $checked = 'checked';
+            }
+        }
     ?>
         <div class="">
-            <input type="checkbox" name="awpps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($options[$args['label_for']]) ? $options[$args['label_for']] : ''; ?>">
+            <input type="checkbox" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="checked" <?php echo $checked; ?>>
         </div>
     <?php
     }
 
-    public function awpps_mc_api_key_field_cb($args)
+    public function awps_mc_api_key_field_cb($args)
     {
-        $options = get_option('awpps_options');
+
     ?>
         <div class="">
-            <input type="text" name="awpps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($options[$args['label_for']]) ? $options[$args['label_for']] : ''; ?>">
+            <input type="text" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($this->options[$args['label_for']]) ? $this->options[$args['label_for']] : ''; ?>">
         </div>
     <?php
     }
 
-    public function awpps_add_settings_menu()
+    public function awps_add_settings_menu()
     {
 
         add_submenu_page(
@@ -100,28 +124,28 @@ class Settings
             'Settings - Automatic WP Posts Summarizer',
             'Automatic WP Posts Summarizer',
             'manage_options',
-            'awpps-settings',
-            [$this, 'awpps_settings_page_html'],
+            'awps-settings',
+            [$this, 'awps_settings_page_html'],
         );
     }
 
-    public function awpps_settings_page_html()
+    public function awps_settings_page_html()
     {
         if (!current_user_can('manage_options')) {
             return;
         }
 
         if (isset($_GET['settings-updated'])) {
-            add_settings_error('awpps_messages', 'awpps_messages', 'Settings Saved', 'updated');
+            add_settings_error('awps_messages', 'awps_messages', 'Settings Saved', 'updated');
         }
     ?>
         <div class="wrap">
             <h1>Automatic WP Posts Summarizer</h1>
-            <div class="awpps-page-body">
+            <div class="awps-page-body">
                 <form action="options.php" method="post">
-                    <?php settings_errors('awpps_messages'); ?>
-                    <?php settings_fields('awpps'); ?>
-                    <?php do_settings_sections('awpps'); ?>
+                    <?php settings_errors('awps_messages'); ?>
+                    <?php settings_fields('awps'); ?>
+                    <?php do_settings_sections('awps'); ?>
                     <?php submit_button('Save Settings'); ?>
                 </form>
             </div>
@@ -131,6 +155,6 @@ class Settings
 
     public function sanitize_inputs($input)
     {
-        return Utils::sanitize_inputs($input);
+        return Utils::sanitize_inputs($input, $this->options);
     }
 }

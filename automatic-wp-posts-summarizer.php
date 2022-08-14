@@ -14,16 +14,16 @@
 // Exit if accessed directly
 defined('ABSPATH') || exit;
 
-defined('AWPPS_DIR') || define('AWPPS_DIR', plugin_dir_path(__FILE__));
-defined('AWPPS_ENCRYPTION_METHOD')  || define('AWPPS_ENCRYPTION_METHOD', 'AES-256-CBC');
-defined('AWPPS_SUMMARIZER_TABLE')   || define('AWPPS_SUMMARIZER_TABLE', 'awpps_summarizer');
+defined('AWPS_DIR') || define('AWPS_DIR', plugin_dir_path(__FILE__));
+defined('AWPS_ENCRYPTION_METHOD')  || define('AWPS_ENCRYPTION_METHOD', 'AES-256-CBC');
+defined('AWPS_SUMMARIZER_TABLE')   || define('AWPS_SUMMARIZER_TABLE', 'awpps_summarizer');
 
 require_once 'autoload.php';
 
-if (empty($GLOBALS['awpps'])) {
+if (empty($GLOBALS['awps'])) {
 
-    $GLOBALS['awpps'] = Awpps\Awpps::get_instance();
+    $GLOBALS['awps'] = Awps\Awps::get_instance();
 
-    register_activation_hook(__FILE__, [$GLOBALS['awpps'], 'activate']);
-    register_deactivation_hook(__FILE__, [$GLOBALS['awpps'], 'deactivate']);
+    register_activation_hook(__FILE__, [$GLOBALS['awps'], 'activate']);
+    register_deactivation_hook(__FILE__, [$GLOBALS['awps'], 'deactivate']);
 }

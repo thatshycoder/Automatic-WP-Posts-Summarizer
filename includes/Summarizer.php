@@ -1,6 +1,6 @@
 <?php
 
-namespace Awpps;
+namespace Awps;
 
 defined('ABSPATH') || exit;
 
@@ -10,13 +10,12 @@ class Summarizer
 
     public function __construct()
     {
-        $option = get_option('awpps_options');
+        $option = get_option('awps_options');
 
         if ($option) {
-            $api_key = $option['awpps_mc_api_key'];
+            $api_key = $option['awps_mc_api_key'];
+            $this->api = new Api($api_key);
         }
-
-        $this->api = new Api($api_key);
     }
 
     public function hooks(): void
@@ -38,7 +37,7 @@ class Summarizer
             $summary_data = ['post_id' => $post_id, 'summary' => $post_summary];
 
             // check if summary exists then uodate it or
-            return $wpdb->insert($wpdb->prefix . AWPPS_SUMMARIZER_TABLE, $summary_data);
+            return $wpdb->insert($wpdb->prefix . AWPS_SUMMARIZER_TABLE, $summary_data);
         }
 
         return false;
@@ -50,7 +49,11 @@ class Summarizer
 
     public function get_post_summary($post, $sentences): string
     {
-        $summary = $this->api->get_text_summary($post, $sentences);
-        return $summary;
+        if (!is_null($this->api)) {
+            $summary = $this->api->get_text_summary($post, $sentences);
+            return $summary;
+        }
+
+        return '';
     }
 }

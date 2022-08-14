@@ -1,6 +1,6 @@
 <?php
 
-namespace Awpps;
+namespace Awps;
 
 use Exception;
 

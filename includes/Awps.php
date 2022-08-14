@@ -1,10 +1,10 @@
 <?php
 
-namespace Awpps;
+namespace Awps;
 
 defined('ABSPATH') || exit;
 
-class Awpps
+class Awps
 {
     private static $instance;
 
@@ -60,6 +60,8 @@ class Awpps
     {
         // create needed db table
         $this->create_summarizer_table();
+        // initialize needed option
+        add_option('awps_options');
     }
 
     public function create_summarizer_table()
@@ -68,10 +70,10 @@ class Awpps
         $charset_collate = $wpdb->get_charset_collate();
 
         $sql = "( `post_id` INT NOT NULL , `summary` TEXT NOT NULL , PRIMARY KEY (`post_id`))";
-        $query = 'CREATE TABLE ' . $wpdb->prefix . AWPPS_SUMMARIZER_TABLE . $sql . $charset_collate;
+        $query = 'CREATE TABLE ' . $wpdb->prefix . AWPS_SUMMARIZER_TABLE . $sql . $charset_collate;
 
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-        maybe_create_table($wpdb->prefix . AWPPS_SUMMARIZER_TABLE, $query);
+        maybe_create_table($wpdb->prefix . AWPS_SUMMARIZER_TABLE, $query);
     }
 
     public function deactivate(): void
@@ -85,7 +87,7 @@ class Awpps
     {
         global $wpdb;
 
-        $table_name = $wpdb->prefix . AWPPS_SUMMARIZER_TABLE;
+        $table_name = $wpdb->prefix . AWPS_SUMMARIZER_TABLE;
         $query = "DROP table $table_name";
         $wpdb->query($query);
     }
