@@ -21,7 +21,7 @@ class Summarizer
 
     public function hooks(): void
     {
-        add_action('edit_post', [$this, 'save_post_summary']);
+        add_action('publish_post', [$this, 'save_post_summary']);
     }
 
     public function save_post_summary($post_id): mixed
