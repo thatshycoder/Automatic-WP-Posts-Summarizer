@@ -31,7 +31,12 @@ class Api
 
             if (!is_wp_error($request)) {
                 $response = json_decode($request['body'], true);
-                return $response['summary'];
+
+                if (array_key_exists('summary', $response)) {
+                    return $response['summary'];
+                } else {
+                    throw new Exception("Error fetching summary");
+                }
             } else {
                 throw new Exception("Error fetching summary");
             }

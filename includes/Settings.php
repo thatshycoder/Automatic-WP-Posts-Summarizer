@@ -21,6 +21,9 @@ class Settings
         add_action('admin_init', [$this, 'awps_settings_init']);
     }
 
+    /**
+     * Register all settings fields and section
+     */
     public function awps_settings_init()
     {
         register_setting('awps', 'awps_options');
@@ -66,12 +69,17 @@ class Settings
         );
     }
 
+    /**
+     * Displays the summary position field
+     * 
+     * @param array $args
+     */
     public function awps_summary_position_field_cb($args)
     {
         $before = '';
         $after = '';
 
-        if (array_key_exists($args['label_for'], $this->options)) {
+        if (isset($this->options[$args['label_for']])) {
 
             if ($this->options[$args['label_for']] === 'before') {
                 $before = 'selected';
@@ -90,11 +98,16 @@ class Settings
     <?php
     }
 
+    /**
+     * Displays the enable summarizer field
+     * 
+     * @param array $args
+     */
     public function awps_enable_summarizer_field_cb($args)
     {
         $checked = '';
 
-        if (array_key_exists($args['label_for'], $this->options)) {
+        if (isset($this->options[$args['label_for']])) {
             if ($this->options[$args['label_for']] === 'checked') {
                 $checked = 'checked';
             }
@@ -106,6 +119,11 @@ class Settings
     <?php
     }
 
+    /**
+     * Displays the meaning cloud api key field
+     * 
+     * @param array $args
+     */
     public function awps_mc_api_key_field_cb($args)
     {
 
@@ -116,6 +134,9 @@ class Settings
     <?php
     }
 
+    /**
+     * Adds plugin settings to admin menu
+     */
     public function awps_add_settings_menu()
     {
 
@@ -129,6 +150,9 @@ class Settings
         );
     }
 
+    /**
+     * Displays plugin settings page
+     */
     public function awps_settings_page_html()
     {
         if (!current_user_can('manage_options')) {
@@ -153,6 +177,9 @@ class Settings
 <?php
     }
 
+    /**
+     * Santizes settings field inputs
+     */
     public function sanitize_inputs($input)
     {
         return Utils::sanitize_inputs($input, $this->options);

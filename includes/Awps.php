@@ -80,7 +80,7 @@ class Awps
     {
         // cleanup db
         $this->delete_summarizer_table();
-        delete_option('awpps_options');
+        delete_option('awps_options');
     }
 
     private function delete_summarizer_table()
@@ -89,6 +89,6 @@ class Awps
 
         $table_name = $wpdb->prefix . AWPS_SUMMARIZER_TABLE;
         $query = "DROP table $table_name";
-        $wpdb->query($query);
+        return $wpdb->query($query);
     }
 }
