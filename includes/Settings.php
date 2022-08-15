@@ -9,6 +9,9 @@ use Awps\Utils as Utils;
 class Settings
 {
     private $options;
+    const ENABLE_SUMMARIZER_OPTION = 'awps_enable_summarizer';
+    const SUMMARY_POSITION_OPTION = 'awps_summary_position';
+    const API_KEY_OPTION = 'awps_mc_api_key';
 
     public function __construct()
     {
@@ -17,14 +20,14 @@ class Settings
 
     public function hooks()
     {
-        add_action('admin_menu', [$this, 'awps_add_settings_menu']);
-        add_action('admin_init', [$this, 'awps_settings_init']);
+        add_action('admin_menu', [$this, 'settings_menu']);
+        add_action('admin_init', [$this, 'settings_init']);
     }
 
     /**
      * Register all settings fields and section
      */
-    public function awps_settings_init()
+    public function settings_init()
     {
         register_setting('awps', 'awps_options');
 
@@ -36,35 +39,35 @@ class Settings
         );
 
         add_settings_field(
-            'awps_enable_summarizer',
-            __('Enable Summarizer', 'awps'),
-            [$this, 'awps_enable_summarizer_field_cb'],
+            self::ENABLE_SUMMARIZER_OPTION,
+            __('Enable Summarizer on All Posts', 'awps'),
+            [$this, 'enable_summarizer_field_cb'],
             'awps',
             'awps',
             array(
-                'label_for'         => 'awps_enable_summarizer'
+                'label_for'         => self::ENABLE_SUMMARIZER_OPTION
             )
         );
 
         add_settings_field(
-            'awps_summary_position',
+            self::SUMMARY_POSITION_OPTION,
             __('Display Summary', 'awps'),
-            [$this, 'awps_summary_position_field_cb'],
+            [$this, 'summary_position_field_cb'],
             'awps',
             'awps',
             array(
-                'label_for'         => 'awps_summary_position'
+                'label_for'         => self::SUMMARY_POSITION_OPTION
             )
         );
 
         add_settings_field(
-            'awps_mc_api_key',
+            self::API_KEY_OPTION,
             __('MeaningCloud API Key', 'awps'),
-            [$this, 'awps_mc_api_key_field_cb'],
+            [$this, 'api_key_field_cb'],
             'awps',
             'awps',
             array(
-                'label_for'         => 'awps_mc_api_key'
+                'label_for'         => self::API_KEY_OPTION,
             )
         );
     }
@@ -74,7 +77,7 @@ class Settings
      * 
      * @param array $args
      */
-    public function awps_summary_position_field_cb($args)
+    public function summary_position_field_cb($args)
     {
         $before = '';
         $after = '';
@@ -103,7 +106,7 @@ class Settings
      * 
      * @param array $args
      */
-    public function awps_enable_summarizer_field_cb($args)
+    public function enable_summarizer_field_cb($args)
     {
         $checked = '';
 
@@ -124,7 +127,7 @@ class Settings
      * 
      * @param array $args
      */
-    public function awps_mc_api_key_field_cb($args)
+    public function api_key_field_cb($args)
     {
 
     ?>
@@ -137,7 +140,7 @@ class Settings
     /**
      * Adds plugin settings to admin menu
      */
-    public function awps_add_settings_menu()
+    public function settings_menu()
     {
 
         add_submenu_page(
@@ -146,14 +149,14 @@ class Settings
             'Automatic WP Posts Summarizer',
             'manage_options',
             'awps-settings',
-            [$this, 'awps_settings_page_html'],
+            [$this, 'settings_page_html'],
         );
     }
 
     /**
      * Displays plugin settings page
      */
-    public function awps_settings_page_html()
+    public function settings_page_html()
     {
         if (!current_user_can('manage_options')) {
             return;
