@@ -15,13 +15,13 @@ class Api
         $this->key = $key;
     }
 
-    public function get_text_summary($text, $sentences)
+    public function get_text_summary($text, $length) : string
     {
         $summary = '';
         $params = [
-            'key' => $this->key,
-            'sentences' => $sentences,
-            'txt' => $text
+            'key'           => $this->key,
+            'sentences'     => $length,
+            'txt'           => $text
         ];
 
         try {

@@ -8,17 +8,20 @@ use Awps\Utils as Utils;
 
 class Settings
 {
-    private $options;
+    const OPTIONS = 'awps_options';
     const ENABLE_SUMMARIZER_OPTION = 'awps_enable_summarizer';
+    const SUMMARY_TITLE_OPTION = 'A Quick Summary..';
+    const SUMMARY_LENGTH_OPTION = '4';
     const SUMMARY_POSITION_OPTION = 'awps_summary_position';
     const API_KEY_OPTION = 'awps_mc_api_key';
+    public $options;
 
     public function __construct()
     {
-        $this->options = get_option('awps_options');
+        $this->options = get_option(self::OPTIONS);
     }
 
-    public function hooks()
+    public function hooks(): void
     {
         add_action('admin_menu', [$this, 'settings_menu']);
         add_action('admin_init', [$this, 'settings_init']);
@@ -27,7 +30,7 @@ class Settings
     /**
      * Register all settings fields and section
      */
-    public function settings_init()
+    public function settings_init(): void
     {
         register_setting('awps', 'awps_options');
 
@@ -77,7 +80,7 @@ class Settings
      * 
      * @param array $args
      */
-    public function summary_position_field_cb($args)
+    public function summary_position_field_cb($args): void
     {
         $before = '';
         $after = '';
@@ -106,7 +109,7 @@ class Settings
      * 
      * @param array $args
      */
-    public function enable_summarizer_field_cb($args)
+    public function enable_summarizer_field_cb($args): void
     {
         $checked = '';
 
@@ -127,7 +130,7 @@ class Settings
      * 
      * @param array $args
      */
-    public function api_key_field_cb($args)
+    public function api_key_field_cb($args): void
     {
 
     ?>
@@ -140,7 +143,7 @@ class Settings
     /**
      * Adds plugin settings to admin menu
      */
-    public function settings_menu()
+    public function settings_menu(): void
     {
 
         add_submenu_page(
@@ -156,7 +159,7 @@ class Settings
     /**
      * Displays plugin settings page
      */
-    public function settings_page_html()
+    public function settings_page_html(): void
     {
         if (!current_user_can('manage_options')) {
             return;
@@ -183,7 +186,7 @@ class Settings
     /**
      * Santizes settings field inputs
      */
-    public function sanitize_inputs($input)
+    public function sanitize_inputs($input): array
     {
         return Utils::sanitize_inputs($input, $this->options);
     }

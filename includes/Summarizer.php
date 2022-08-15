@@ -6,11 +6,17 @@ defined('ABSPATH') || exit;
 
 class Summarizer
 {
+    /**
+     * Instance of Api
+     * @var Api
+     */
     private $api;
 
-    public function __construct()
+    private $summary_length;
+
+    public function __construct($awps)
     {
-        $option = get_option('awps_options');
+        $option = $awps->settings->options;
 
         if ($option && isset($option['awps_enable_summarizer'])) {
 
@@ -18,6 +24,7 @@ class Summarizer
 
                 $api_key = $option['awps_mc_api_key'];
                 $this->api = new Api($api_key);
+                $this->summary_length = $awps->settings::SUMMARY_LENGTH_OPTION;
             }
         }
     }
@@ -40,10 +47,8 @@ class Summarizer
 
             global $wpdb;
 
-            $sentences = 2;
             $post = get_post($post_id);
-
-            $post_summary = $this->get_post_summary($post->post_content, $sentences);
+            $post_summary = $this->get_post_summary($post->post_content, $this->summary_length);
 
             if (!empty($post_summary)) {
 
@@ -57,6 +62,7 @@ class Summarizer
         return false;
     }
 
+    // TODO: Fetch new summary on post update and update db
     public function update_post_summary(): void
     {
     }
@@ -67,10 +73,10 @@ class Summarizer
      * @param string $post
      * @param int $sentences
      */
-    public function get_post_summary($post, $sentences): string
+    public function get_post_summary($post, $length): string
     {
         if (!is_null($this->api)) {
-            $summary = $this->api->get_text_summary($post, $sentences);
+            $summary = $this->api->get_text_summary($post, $length);
             return $summary;
         }
 

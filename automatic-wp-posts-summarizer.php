@@ -20,10 +20,7 @@ defined('AWPS_SUMMARIZER_TABLE')   || define('AWPS_SUMMARIZER_TABLE', 'awps_summ
 
 require_once 'autoload.php';
 
-if (empty($GLOBALS['awps'])) {
+$awps = Awps\Awps::get_instance();
 
-    $GLOBALS['awps'] = Awps\Awps::get_instance();
-
-    register_activation_hook(__FILE__, [$GLOBALS['awps'], 'activate']);
-    register_deactivation_hook(__FILE__, [$GLOBALS['awps'], 'deactivate']);
-}
+register_activation_hook(__FILE__, [$awps, 'activate']);
+register_deactivation_hook(__FILE__, [$awps, 'deactivate']);

@@ -12,7 +12,7 @@ class Awps
      * Settings instance
      * @var Settings
      */
-    private $settings;
+    public $settings;
 
     /**
      * Summarizer instance
@@ -29,8 +29,8 @@ class Awps
     private function __construct()
     {
         $this->settings = new Settings();
-        $this->summarizer = new Summarizer();
-        $this->summary = new Summary();
+        $this->summarizer = new Summarizer($this);
+        $this->summary = new Summary($this);
         $this->hooks();
         $this->summarizer->hooks();
         $this->summary->hooks();
@@ -61,10 +61,10 @@ class Awps
         // create needed db table
         $this->create_summarizer_table();
         // initialize needed option
-        add_option('awps_options');
+        add_option($this->settings::OPTIONS);
     }
 
-    public function create_summarizer_table()
+    public function create_summarizer_table(): void
     {
         global $wpdb;
         $charset_collate = $wpdb->get_charset_collate();
@@ -83,7 +83,7 @@ class Awps
         delete_option('awps_options');
     }
 
-    private function delete_summarizer_table()
+    private function delete_summarizer_table(): mixed
     {
         global $wpdb;
 
