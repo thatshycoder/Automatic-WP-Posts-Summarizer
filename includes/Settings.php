@@ -78,7 +78,7 @@ class Settings
         add_settings_field(
             self::SUMMARY_LENGTH_OPTION,
             __('Summary Sentences Length', 'awps'),
-            [$this, 'text_field_cb'],
+            [$this, 'number_field_cb'],
             'awps',
             'awps',
             array(
@@ -139,7 +139,8 @@ class Settings
     }
 
     /**
-     * Displays the enable summarizer field
+     * Displays the enable summarizer, and display summarizer
+     * on all posts fields
      * 
      * @param array $args
      */
@@ -160,7 +161,7 @@ class Settings
     }
 
     /**
-     * Displays the meaning cloud api key field
+     * Displays summary title, and meaning cloud api key field
      * 
      * @param array $args
      */
@@ -170,6 +171,21 @@ class Settings
     ?>
         <div class="">
             <input type="text" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($this->options[$args['label_for']]) ? $this->options[$args['label_for']] : ''; ?>">
+        </div>
+    <?php
+    }
+
+    /**
+     * Displays summary sentences length field
+     * 
+     * @param array $args
+     */
+    public function number_field_cb($args): void
+    {
+
+    ?>
+        <div class="">
+            <input type="number" min="1" max="5" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($this->options[$args['label_for']]) ? $this->options[$args['label_for']] : ''; ?>">
         </div>
     <?php
     }
