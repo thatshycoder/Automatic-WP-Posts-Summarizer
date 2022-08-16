@@ -40,8 +40,8 @@ class Summary
                     isset($this->options[$this->settings::DISPLAY_SUMMARIZER_ON_POSTS_OPTION])
                 ) {
                     if (
-                        $this->options[$this->settings::ENABLE_SUMMARIZER_OPTION] === "checked" &&
-                        $this->options[$this->settings::DISPLAY_SUMMARIZER_ON_POSTS_OPTION] === "checked"
+                        $this->options[$this->settings::ENABLE_SUMMARIZER_OPTION] === 'checked' &&
+                        $this->options[$this->settings::DISPLAY_SUMMARIZER_ON_POSTS_OPTION] === 'checked'
                     ) {
 
                         $summary = $this->get_post_summary_from_db(get_the_ID());
@@ -131,12 +131,12 @@ class Summary
 
         if (isset($this->options[$this->settings::SUMMARY_POSITION_OPTION])) {
             if ($this->options[$this->settings::SUMMARY_POSITION_OPTION] === 'after') {
-                $output .= $content . '<hr>' . $output;
+                $output = $content . '<hr>' . $output;
             }
         }
 
         // TODO: Make the <hr> customizable/add class
-        $output .= $output . '<hr>' . $content;
+        $output = $output . '<hr>' . $content;
         // TODO: Ensure this is done properly
         return apply_filters('awps_summary', $output);
     }
