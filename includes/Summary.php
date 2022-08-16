@@ -6,8 +6,6 @@ defined('ABSPATH') || exit;
 
 class Summary
 {
-    // filter the_content and display summary based on option
-
     private $options;
     private $settings;
 
@@ -51,8 +49,6 @@ class Summary
                         if (!empty($summary)) {
 
                             $content = $this->render_summary_output($summary, $content);
-                            // TODO: Ensure this is done properly.
-                            apply_filters('awps_post_summary', $content);
                         }
                     }
                 }
@@ -93,16 +89,14 @@ class Summary
                                 $summary = $this->get_post_summary_from_db(get_the_ID());
                                 $summary =  $this->render_summary_output($summary, '', $summary_title);
 
-                                // TODO: Ensure this is done properly.
-                                return apply_filters('awps_summary_shortcode', $summary);
+                                return $summary;
                             }
                         }
                     } else {
                         $summary = $this->get_post_summary_from_db(get_the_ID());
                         $summary =  $this->render_summary_output($summary);
 
-                        // TODO: Ensure this is done properly.
-                        return apply_filters('awps_summary_shortcode', $summary);
+                        return $summary;
                     }
                 }
             }
@@ -121,6 +115,7 @@ class Summary
     private function render_summary_output($summary, $content = '', $title = ''): string
     {
         $summary_title = __('A Quick Summary');
+        $output = '';
 
         if (!empty($title)) {
             $summary_title = $title;
@@ -131,17 +126,19 @@ class Summary
             }
         }
 
-        $output = '<h3>' . $summary_title . '</h3>';
+        $output .= '<h3>' . $summary_title . '</h3>';
         $output .= '<p>' . $summary . '</p>';
 
         if (isset($this->options[$this->settings::SUMMARY_POSITION_OPTION])) {
             if ($this->options[$this->settings::SUMMARY_POSITION_OPTION] === 'after') {
-                return $content . '<hr>' . $output;
+                $output .= $content . '<hr>' . $output;
             }
         }
 
         // TODO: Make the <hr> customizable/add class
-        return $output . '<hr>' . $content;
+        $output .= $output . '<hr>' . $content;
+        // TODO: Ensure this is done properly
+        return apply_filters('awps_summary', $output);
     }
 
     /**
@@ -163,6 +160,7 @@ class Summary
             return $result->summary;
         }
 
+        // TODO: Ensure this is done properly
         return do_action('awps_get_post_summary', $summary);
     }
 }

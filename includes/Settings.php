@@ -139,7 +139,7 @@ class Settings
     }
 
     /**
-     * Displays the enable summarizer, and display summarizer
+     * Displays the enable summarizer, and display summary
      * on all posts fields
      * 
      * @param array $args

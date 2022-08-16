@@ -43,19 +43,21 @@ class Summarizer
      */
     public function save_post_summary($post_id): mixed
     {
-        if (!empty($this->api)) {
+        if (isset($this->api)) {
+            if (!empty($this->api)) {
 
-            global $wpdb;
+                global $wpdb;
 
-            $post = get_post($post_id);
-            $post_summary = $this->get_post_summary($post->post_content, $this->summary_length);
+                $post = get_post($post_id);
+                $post_summary = $this->get_post_summary($post->post_content, $this->summary_length);
 
-            if (!empty($post_summary)) {
+                if (!empty($post_summary)) {
 
-                $summary_data = ['post_id' => $post_id, 'summary' => $post_summary];
+                    $summary_data = ['post_id' => $post_id, 'summary' => $post_summary];
 
-                // check if summary exists then uodate it or
-                return $wpdb->insert($wpdb->prefix . AWPS_SUMMARIZER_TABLE, $summary_data);
+                    // check if summary exists then uodate it or
+                    return $wpdb->insert($wpdb->prefix . AWPS_SUMMARIZER_TABLE, $summary_data);
+                }
             }
         }
 

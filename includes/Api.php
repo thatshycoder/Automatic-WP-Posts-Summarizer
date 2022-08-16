@@ -15,7 +15,7 @@ class Api
         $this->key = $key;
     }
 
-    public function get_text_summary($text, $length) : string
+    public function get_text_summary($text, $length): string
     {
         $summary = '';
         $params = [
@@ -41,7 +41,7 @@ class Api
                 throw new Exception("Error fetching summary");
             }
         } catch (Exception $e) {
-            // show error
+            // log error
             error_log($e);
         }
 
