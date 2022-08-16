@@ -18,13 +18,24 @@ class Summarizer
     {
         $option = $awps->settings->options;
 
-        if ($option && isset($option['awps_enable_summarizer'])) {
+        if (
+            $option && isset($option[$awps->settings::ENABLE_SUMMARIZER_OPTION]) &&
+            isset($option[$awps->settings::API_KEY_OPTION])
+        ) {
 
-            if ($option['awps_enable_summarizer'] == 'checked') {
+            if (
+                $option[$awps->settings::ENABLE_SUMMARIZER_OPTION] == 'checked' &&
+                !empty($option[$awps->settings::API_KEY_OPTION])
+            ) {
 
-                $api_key = $option['awps_mc_api_key'];
+                $api_key = $option[$awps->settings::API_KEY_OPTION];
                 $this->api = new Api($api_key);
                 $this->summary_length = (int) $option[$awps->settings::SUMMARY_LENGTH_OPTION];
+
+                // ensure summary length is not empty
+                if ($this->summary_length == 0) {
+                    $this->summary_length = 2;
+                }
             }
         }
     }
