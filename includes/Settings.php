@@ -11,8 +11,8 @@ class Settings
     const OPTIONS = 'awps_options';
     const ENABLE_SUMMARIZER_OPTION = 'awps_enable_summarizer';
     const DISPLAY_SUMMARIZER_ON_POSTS_OPTION = 'awps_display_summarizer_allposts';
-    const SUMMARY_TITLE_OPTION = 'A Quick Summary..';
-    const SUMMARY_LENGTH_OPTION = '4';
+    const SUMMARY_TITLE_OPTION = 'awps_enable_summary_title';
+    const SUMMARY_LENGTH_OPTION = 'awps_summary_length';
     const SUMMARY_POSITION_OPTION = 'awps_summary_position';
     const API_KEY_OPTION = 'awps_mc_api_key';
     public $options;
@@ -45,7 +45,7 @@ class Settings
         add_settings_field(
             self::ENABLE_SUMMARIZER_OPTION,
             __('Enable Summarizer', 'awps'),
-            [$this, 'enable_summarizer_field_cb'],
+            [$this, 'checkbox_field_cb'],
             'awps',
             'awps',
             array(
@@ -56,7 +56,7 @@ class Settings
         add_settings_field(
             self::DISPLAY_SUMMARIZER_ON_POSTS_OPTION,
             __('Display Summary on All Posts', 'awps'),
-            [$this, 'enable_summarizer_field_cb'],
+            [$this, 'checkbox_field_cb'],
             'awps',
             'awps',
             array(
@@ -67,7 +67,7 @@ class Settings
         add_settings_field(
             self::SUMMARY_POSITION_OPTION,
             __('Display Summary', 'awps'),
-            [$this, 'summary_position_field_cb'],
+            [$this, 'dropdown_field_cb'],
             'awps',
             'awps',
             array(
@@ -76,9 +76,31 @@ class Settings
         );
 
         add_settings_field(
+            self::SUMMARY_LENGTH_OPTION,
+            __('Summary Sentences Length', 'awps'),
+            [$this, 'text_field_cb'],
+            'awps',
+            'awps',
+            array(
+                'label_for'         => self::SUMMARY_LENGTH_OPTION
+            )
+        );
+
+        add_settings_field(
+            self::SUMMARY_TITLE_OPTION,
+            __('Summary Title', 'awps'),
+            [$this, 'text_field_cb'],
+            'awps',
+            'awps',
+            array(
+                'label_for'         => self::SUMMARY_TITLE_OPTION
+            )
+        );
+
+        add_settings_field(
             self::API_KEY_OPTION,
             __('MeaningCloud API Key', 'awps'),
-            [$this, 'api_key_field_cb'],
+            [$this, 'text_field_cb'],
             'awps',
             'awps',
             array(
@@ -92,7 +114,7 @@ class Settings
      * 
      * @param array $args
      */
-    public function summary_position_field_cb($args): void
+    public function dropdown_field_cb($args): void
     {
         $before = '';
         $after = '';
@@ -121,7 +143,7 @@ class Settings
      * 
      * @param array $args
      */
-    public function enable_summarizer_field_cb($args): void
+    public function checkbox_field_cb($args): void
     {
         $checked = '';
 
@@ -142,7 +164,7 @@ class Settings
      * 
      * @param array $args
      */
-    public function api_key_field_cb($args): void
+    public function text_field_cb($args): void
     {
 
     ?>
