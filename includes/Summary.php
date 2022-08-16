@@ -79,18 +79,30 @@ class Summary
                     $this->options[$this->settings::DISPLAY_SUMMARIZER_ON_POSTS_OPTION] !== 'checked' ||
                     !isset($this->options[$this->settings::DISPLAY_SUMMARIZER_ON_POSTS_OPTION])
                 ) {
+                    // process shortcode attributes
+                    if (!empty($atts)) {
 
-                    $atts = array_change_key_case((array) $atts, CASE_LOWER);
+                        $atts = array_change_key_case((array) $atts, CASE_LOWER);
 
-                    if (empty($atts)) {
+                        if (isset($atts['title'])) {
 
-                        //
+                            $summary_title = sanitize_text_field($atts['title']);
+
+                            if (!empty($summary_title)) {
+
+                                $summary = $this->get_post_summary_from_db(get_the_ID());
+                                $summary =  $this->render_summary_output($summary, '', $summary_title);
+
+                                // TODO: Ensure this is done properly.
+                                return apply_filters('awps_summary_shortcode', $summary);
+                            }
+                        }
                     } else {
                         $summary = $this->get_post_summary_from_db(get_the_ID());
                         $summary =  $this->render_summary_output($summary);
 
                         // TODO: Ensure this is done properly.
-                        apply_filters('awps_summary_shortcode', $summary);
+                        return apply_filters('awps_summary_shortcode', $summary);
                     }
                 }
             }
@@ -106,9 +118,20 @@ class Summary
      * @param string $summary
      * @return string
      */
-    private function render_summary_output($summary, $content = ''): string
+    private function render_summary_output($summary, $content = '', $title = ''): string
     {
-        $output = '<h3>' . $this->options[$this->settings::SUMMARY_TITLE_OPTION] . '</h3>';
+        $summary_title = __('A Quick Summary');
+
+        if (!empty($title)) {
+            $summary_title = $title;
+        } elseif (isset($this->options[$this->settings::SUMMARY_TITLE_OPTION])) {
+            if (!empty($this->options[$this->settings::SUMMARY_TITLE_OPTION])) {
+
+                $summary_title = $this->options[$this->settings::SUMMARY_TITLE_OPTION];
+            }
+        }
+
+        $output = '<h3>' . $summary_title . '</h3>';
         $output .= '<p>' . $summary . '</p>';
 
         if (isset($this->options[$this->settings::SUMMARY_POSITION_OPTION])) {
