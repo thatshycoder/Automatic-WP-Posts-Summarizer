@@ -10,6 +10,7 @@ class Settings
 {
     const OPTIONS = 'awps_options';
     const ENABLE_SUMMARIZER_OPTION = 'awps_enable_summarizer';
+    const DISPLAY_SUMMARIZER_ON_POSTS_OPTION = 'awps_display_summarizer_allposts';
     const SUMMARY_TITLE_OPTION = 'A Quick Summary..';
     const SUMMARY_LENGTH_OPTION = '4';
     const SUMMARY_POSITION_OPTION = 'awps_summary_position';
@@ -43,12 +44,23 @@ class Settings
 
         add_settings_field(
             self::ENABLE_SUMMARIZER_OPTION,
-            __('Enable Summarizer on All Posts', 'awps'),
+            __('Enable Summarizer', 'awps'),
             [$this, 'enable_summarizer_field_cb'],
             'awps',
             'awps',
             array(
                 'label_for'         => self::ENABLE_SUMMARIZER_OPTION
+            )
+        );
+
+        add_settings_field(
+            self::DISPLAY_SUMMARIZER_ON_POSTS_OPTION,
+            __('Display Summary on All Posts', 'awps'),
+            [$this, 'enable_summarizer_field_cb'],
+            'awps',
+            'awps',
+            array(
+                'label_for'         => self::DISPLAY_SUMMARIZER_ON_POSTS_OPTION
             )
         );
 

@@ -1,6 +1,6 @@
 ## Automatic WP Posts Summarizer
 
-A plugin that uses artificial intelligence and machine learning to generate an accurate and meaningful summary of posts.
+A plugin that uses Artificial Intelligence and Natural Language Processing (NLP) to generate an accurate and meaningful summary of posts.
 
 ## Features
 

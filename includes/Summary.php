@@ -6,10 +6,7 @@ defined('ABSPATH') || exit;
 
 class Summary
 {
-    // add shortcode
-    // if option is enabled to display summary
     // filter the_content and display summary based on option
-    // make sure summary is not rendered twice eg shortcode + filter clash
 
     private $options;
     private $settings;
@@ -23,10 +20,16 @@ class Summary
     public function hooks()
     {
         add_shortcode('awps', [$this, 'shortcode']);
-        add_filter('the_content', [$this, 'display_summarizer_in_all_posts']);
+        add_filter('the_content', [$this, 'display_summarizer_on_all_posts']);
     }
 
-    public function display_summarizer_in_all_posts($content): string
+    /**
+     * Displays summary on all posts
+     * 
+     * @param string $content
+     * @return string
+     */
+    public function display_summarizer_on_all_posts($content): string
     {
         // ensure we're filtering the right post
         if (is_singular() && in_the_loop() && is_main_query()) {
@@ -34,17 +37,20 @@ class Summary
             if ($this->options) {
 
                 // ensure the option is enabled for showing summary on all posts
-                if (isset($this->options[$this->settings::ENABLE_SUMMARIZER_OPTION])) {
-                    if ($this->options[$this->settings::ENABLE_SUMMARIZER_OPTION] === "checked") {
+                if (
+                    isset($this->options[$this->settings::ENABLE_SUMMARIZER_OPTION]) &&
+                    isset($this->options[$this->settings::DISPLAY_SUMMARIZER_ON_POSTS_OPTION])
+                ) {
+                    if (
+                        $this->options[$this->settings::ENABLE_SUMMARIZER_OPTION] === "checked" &&
+                        $this->options[$this->settings::DISPLAY_SUMMARIZER_ON_POSTS_OPTION] === "checked"
+                    ) {
 
                         $summary = $this->get_post_summary_from_db(get_the_ID());
 
                         if (!empty($summary)) {
 
-                            $output = '<h3>' . $this->settings::SUMMARY_TITLE_OPTION . '</h3>';
-                            $output .= '<p>' . $summary . '</p>';
-                            $content = $output . $content;
-
+                            $content = $this->render_summary_output($summary, $content);
                             // TODO: Ensure this is done properly.
                             apply_filters('awps_post_summary', $content);
                         }
@@ -56,16 +62,64 @@ class Summary
         return $content;
     }
 
-    public function shortcode($atts): void
+    /**
+     * Renders AWPS shortcode
+     * 
+     * @param array $atts
+     */
+    public function shortcode($atts): string
     {
-        $atts = array_change_key_case((array) $atts, CASE_LOWER);
+        if ($this->options) {
 
-        if (!empty($atts)) {
+            if (isset($this->options[$this->settings::ENABLE_SUMMARIZER_OPTION])) {
 
-            //
+                // prevents showing duplicate summary eg settings & shortcode clash
+                if (
+                    isset($this->options[$this->settings::DISPLAY_SUMMARIZER_ON_POSTS_OPTION]) &&
+                    $this->options[$this->settings::DISPLAY_SUMMARIZER_ON_POSTS_OPTION] !== 'checked' ||
+                    !isset($this->options[$this->settings::DISPLAY_SUMMARIZER_ON_POSTS_OPTION])
+                ) {
+
+                    $atts = array_change_key_case((array) $atts, CASE_LOWER);
+
+                    if (empty($atts)) {
+
+                        //
+                    } else {
+                        $summary = $this->get_post_summary_from_db(get_the_ID());
+                        $summary =  $this->render_summary_output($summary);
+
+                        // TODO: Ensure this is done properly.
+                        apply_filters('awps_summary_shortcode', $summary);
+                    }
+                }
+            }
         }
+
+        return '';
     }
 
+    /**
+     * Customizes how the summary is displayed in post content
+     * 
+     * @param string $content
+     * @param string $summary
+     * @return string
+     */
+    private function render_summary_output($summary, $content = ''): string
+    {
+        $output = '<h3>' . $this->settings::SUMMARY_TITLE_OPTION . '</h3>';
+        $output .= '<p>' . $summary . '</p><hr><br>';
+
+        return $output . $content;
+    }
+
+    /**
+     * Gets cached summary from db
+     * 
+     * @param int $post_id
+     * @return string
+     */
     private function get_post_summary_from_db($post_id): string
     {
         global $wpdb;
@@ -79,6 +133,6 @@ class Summary
             return $result->summary;
         }
 
-        return $summary;
+        return do_action('awps_get_post_summary', $summary);
     }
 }
