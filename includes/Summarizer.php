@@ -24,7 +24,7 @@ class Summarizer
 
                 $api_key = $option['awps_mc_api_key'];
                 $this->api = new Api($api_key);
-                $this->summary_length = $awps->settings::SUMMARY_LENGTH_OPTION;
+                $this->summary_length = (int) $option[$awps->settings::SUMMARY_LENGTH_OPTION];
             }
         }
     }

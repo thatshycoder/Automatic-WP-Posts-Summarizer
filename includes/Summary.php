@@ -108,10 +108,17 @@ class Summary
      */
     private function render_summary_output($summary, $content = ''): string
     {
-        $output = '<h3>' . $this->settings::SUMMARY_TITLE_OPTION . '</h3>';
-        $output .= '<p>' . $summary . '</p><hr><br>';
+        $output = '<h3>' . $this->options[$this->settings::SUMMARY_TITLE_OPTION] . '</h3>';
+        $output .= '<p>' . $summary . '</p>';
 
-        return $output . $content;
+        if (isset($this->options[$this->settings::SUMMARY_POSITION_OPTION])) {
+            if ($this->options[$this->settings::SUMMARY_POSITION_OPTION] === 'after') {
+                return $content . '<hr>' . $output;
+            }
+        }
+
+        // TODO: Make the <hr> customizable/add class
+        return $output . '<hr>' . $content;
     }
 
     /**
