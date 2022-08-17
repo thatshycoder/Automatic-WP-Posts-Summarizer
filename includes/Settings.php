@@ -4,8 +4,6 @@ namespace Awps;
 
 defined('ABSPATH') || exit;
 
-use Awps\Utils as Utils;
-
 class Settings
 {
     const OPTIONS = 'awps_options';
@@ -33,7 +31,7 @@ class Settings
      */
     public function settings_init(): void
     {
-        register_setting('awps', 'awps_options');
+        register_setting('awps', 'awps_options', ['sanitize_callback' => [$this, 'sanitize_inputs']]);
 
         add_settings_section(
             'awps',
@@ -157,7 +155,7 @@ class Settings
         <div class="">
             <input type="checkbox" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="checked" <?php echo $checked; ?>>
         </div>
-    <?php
+        <?php
     }
 
     /**
@@ -167,12 +165,21 @@ class Settings
      */
     public function text_field_cb($args): void
     {
+        if (isset($this->options[$args['label_for']])) {
 
-    ?>
-        <div class="">
-            <input type="text" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($this->options[$args['label_for']]) ? $this->options[$args['label_for']] : ''; ?>">
-        </div>
-    <?php
+            if ($args['label_for'] === self::API_KEY_OPTION) {
+        ?>
+                <div class="">
+                    <input type="text" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" placeholder="<?php echo isset($this->options[$args['label_for']]) ? '****************' : ''; ?>">
+                </div>
+            <?php } else {
+            ?>
+                <div class="">
+                    <input type="text" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($this->options[$args['label_for']]) ? $this->options[$args['label_for']] : ''; ?>">
+                </div>
+        <?php
+            }
+        }
     }
 
     /**
@@ -183,7 +190,7 @@ class Settings
     public function number_field_cb($args): void
     {
 
-    ?>
+        ?>
         <div class="">
             <input type="number" min="1" max="5" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($this->options[$args['label_for']]) ? $this->options[$args['label_for']] : ''; ?>">
         </div>
@@ -238,6 +245,7 @@ class Settings
      */
     public function sanitize_inputs($input): array
     {
-        return Utils::sanitize_inputs($input, $this->options);
+        $api_key_fields = [self::API_KEY_OPTION];
+        return \Awps\SettingsUtils::sanitize_inputs($input, $this->options, $api_key_fields);
     }
 }

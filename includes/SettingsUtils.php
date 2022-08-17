@@ -4,7 +4,7 @@ namespace Awps;
 
 defined('ABSPATH') || exit;
 
-class Utils
+class SettingsUtils
 {
     private const SETTINGS_KEY = 'awps_settings_key';
 
@@ -15,7 +15,7 @@ class Utils
      * @param array $options
      * @return array
      */
-    public static function sanitize_inputs($inputs, $options, $api_keys): array
+    public static function sanitize_inputs($inputs, $options, $api_key_fields): array
     {
         $sanitized_input = [];
 
@@ -25,17 +25,15 @@ class Utils
                 $sanitized_input[$input_key] = $options[$input_key];
             } else {
 
-                $input_value = str_replace(' ', '', $input_value);
                 $input_value = trim(strip_tags(stripslashes($input_value)));
                 $input_value = sanitize_text_field($input_value);
 
                 // encrypt api key fields
-                if (!empty($api_keys)) {
+                if (!empty($api_key_fields)) {
 
-                    // TODO: check call_user_func
-                    foreach ($api_keys as $api_key) {
+                    foreach ($api_key_fields as $field) {
 
-                        if ($input_key === $api_key) {
+                        if ($input_key === $field) {
 
                             $input_value = self::encrypt($input_value);
                         }
@@ -54,7 +52,7 @@ class Utils
      */
     public static function store_key(): void
     {
-        $key = bin2hex(random_bytes(16)); // generate random opensll compatible string
+        $key = bin2hex(random_bytes(16));
         add_option(self::SETTINGS_KEY, $key);
     }
 

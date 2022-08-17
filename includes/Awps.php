@@ -61,7 +61,7 @@ class Awps
         // create needed db table
         $this->create_summarizer_table();
         // store settings encryption key
-        Utils::store_key();
+        \Awps\SettingsUtils::store_key();
         // initialize needed option
         add_option($this->settings::OPTIONS);
     }
