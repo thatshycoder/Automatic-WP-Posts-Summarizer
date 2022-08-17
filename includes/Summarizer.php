@@ -29,6 +29,8 @@ class Summarizer
             ) {
 
                 $api_key = $option[$awps->settings::API_KEY_OPTION];
+                $api_key = \Awps\SettingsUtils::decrypt($api_key);
+
                 $this->api = new Api($api_key);
                 $this->summary_length = (int) $option[$awps->settings::SUMMARY_LENGTH_OPTION];
 
@@ -64,7 +66,9 @@ class Summarizer
 
                 if (!empty($post_summary)) {
 
+                    $post_summary = strip_shortcodes($post_summary);
                     $summary_data = ['post_id' => $post_id, 'summary' => $post_summary];
+
                     // check if summary exists and then update it or insert new
                     return $wpdb->replace($wpdb->prefix . AWPS_SUMMARIZER_TABLE, $summary_data, ['%d', '%s']);
                 } else {
