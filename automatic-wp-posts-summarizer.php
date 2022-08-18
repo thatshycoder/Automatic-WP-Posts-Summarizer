@@ -24,3 +24,5 @@ $awps = Awps\Awps::get_instance();
 
 register_activation_hook(__FILE__, [$awps, 'activate']);
 register_uninstall_hook(__FILE__, [$awps, 'deactivate']);
+
+// TODO: Support translations

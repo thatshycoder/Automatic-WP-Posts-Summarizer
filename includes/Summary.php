@@ -8,6 +8,7 @@ class Summary
 {
     private $options;
     private $settings;
+    private const SUMMARY_CLASS = 'awps_summary';
 
     public function __construct($awps)
     {
@@ -65,6 +66,9 @@ class Summary
      */
     public function shortcode($atts): string
     {
+        $summary = '';
+        $summary_title = '';
+
         if ($this->options) {
 
             if (isset($this->options[$this->settings::ENABLE_SUMMARIZER_OPTION])) {
@@ -75,28 +79,28 @@ class Summary
                     $this->options[$this->settings::DISPLAY_SUMMARIZER_ON_POSTS_OPTION] !== 'checked' ||
                     !isset($this->options[$this->settings::DISPLAY_SUMMARIZER_ON_POSTS_OPTION])
                 ) {
+
+                    $summary = $this->get_post_summary_from_db(get_the_ID());
+
                     // process shortcode attributes
                     if (!empty($atts)) {
 
                         $atts = array_change_key_case((array) $atts, CASE_LOWER);
 
                         if (isset($atts['title'])) {
-
                             $summary_title = sanitize_text_field($atts['title']);
+                        }
 
-                            if (!empty($summary_title)) {
+                        if (isset($atts['summary'])) {
 
-                                $summary = $this->get_post_summary_from_db(get_the_ID());
-                                $summary =  $this->render_summary_output($summary, '', $summary_title);
-
-                                return $summary;
+                            if (!empty($atts['summary'])) {
+                                $summary = sanitize_text_field($atts['summary']);
                             }
                         }
-                    } else {
-                        $summary = $this->get_post_summary_from_db(get_the_ID());
-                        $summary =  $this->render_summary_output($summary);
+                    }
 
-                        return $summary;
+                    if (!empty($summary)) {
+                        return $this->render_summary_output($summary, '', $summary_title);
                     }
                 }
             }
@@ -131,13 +135,14 @@ class Summary
 
         if (isset($this->options[$this->settings::SUMMARY_POSITION_OPTION])) {
             if ($this->options[$this->settings::SUMMARY_POSITION_OPTION] === 'after') {
-                $output = $content . '<hr>' . $output;
+
+                $output = $content . '<div class="' . self::SUMMARY_CLASS . '">' . $output . '</div>';
+            } else {
+
+                $output = '<div class="' . self::SUMMARY_CLASS . '">' . $output . '</div>' . $content;
             }
         }
 
-        // TODO: Make the <hr> customizable/add class
-        $output = $output . '<hr>' . $content;
-        // TODO: Ensure this is done properly
         return apply_filters('awps_summary', $output);
     }
 
@@ -157,10 +162,9 @@ class Summary
         $result = $wpdb->get_row($query);
 
         if (!empty($result) && isset($result->summary)) {
-            return $result->summary;
+            $summary =  strip_shortcodes($result->summary);
         }
 
-        // TODO: Ensure this is done properly
-        return do_action('awps_get_post_summary', $summary);
+        return $summary;
     }
 }
