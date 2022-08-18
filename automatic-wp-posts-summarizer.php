@@ -1,16 +1,16 @@
 <?php
 
 /**
- * Plugin Name:		Automatic WP Posts Summarizer
- * Author:		    Shycoder
- * Author URI:		https://shycoder.com/
- * Description:		AI Powered automatic posts summarization plugin for WordPress
- * Version:		    1.0
- * Plugin URI:		https://wordpress.org/plugins/automatic-wp-posts-summarizer
- * Requires PHP:	8.0
- * Requires at least:	5.1
- * Text Domain:         automatic-wp-posts-summarizer
- * License: GPLv3 or later
+ * Plugin Name:		        Automatic WP Posts Summarizer
+ * Author:		            Shycoder
+ * Author URI:		        https://shycoder.com/
+ * Description:		        AI Powered automatic posts summarization plugin for WordPress
+ * Version:		            1.0
+ * Plugin URI:		        https://wordpress.org/plugins/automatic-wp-posts-summarizer
+ * Requires PHP:	        8.0
+ * Requires at least:	    5.1
+ * Text Domain:             automatic-wp-posts-summarizer
+ * License:                 GPLv3 or later
  */
 
 // Exit if accessed directly
