@@ -77,10 +77,10 @@ class SettingsUtils
      */
     public static function decrypt($key)
     {
-        $encryption_keys = self::get_keys();
+        $decryption_keys = self::get_keys();
 
         if (!empty($encryption_keys)) {
-            return openssl_decrypt(base64_decode($key), AWPS_ENCRYPTION_METHOD, $encryption_keys['key'], 0, $encryption_keys['iv']);
+            return openssl_decrypt(base64_decode($key), AWPS_ENCRYPTION_METHOD, $decryption_keys['key'], 0, $decryption_keys['iv']);
         }
     }
 

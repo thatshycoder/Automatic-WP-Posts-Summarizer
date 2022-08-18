@@ -62,7 +62,7 @@ class Summarizer
                 global $wpdb;
 
                 $post = get_post($post_id);
-                $post_summary = $this->get_post_summary($post->post_content, $this->summary_length);
+                $post_summary = $this->get_post_summary_from_api($post->post_content, $this->summary_length);
 
                 if (!empty($post_summary)) {
 
@@ -88,7 +88,7 @@ class Summarizer
      * @param string $post
      * @param int $sentences
      */
-    public function get_post_summary($post, $length): string
+    public function get_post_summary_from_api($post, $length): string
     {
         if (!is_null($this->api)) {
             $summary = $this->api->get_text_summary($post, $length);

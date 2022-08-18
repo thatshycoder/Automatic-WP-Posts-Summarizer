@@ -35,7 +35,7 @@ class Summary
     public function hooks()
     {
         add_shortcode('awps', [$this, 'shortcode']);
-        add_filter('the_content', [$this, 'display_summarizer_on_all_posts']);
+        add_filter('the_content', [$this, 'display_summary_on_all_posts']);
     }
 
     /**
@@ -44,7 +44,7 @@ class Summary
      * @param string $content
      * @return string
      */
-    public function display_summarizer_on_all_posts($content): string
+    public function display_summary_on_all_posts($content): string
     {
         // ensure we're filtering the right post
         if (is_singular() && in_the_loop() && is_main_query()) {
