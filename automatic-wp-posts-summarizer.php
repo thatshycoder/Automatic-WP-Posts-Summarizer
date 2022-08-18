@@ -9,6 +9,7 @@
  * Plugin URI:		https://wordpress.org/plugins/automatic-wp-posts-summarizer
  * Requires PHP:	8.0
  * Requires at least:	5.1
+ * Text Domain:         automatic-wp-posts-summarizer
  * License: GPLv3 or later
  */
 
@@ -25,5 +26,3 @@ $awps = Awps\Awps::get_instance();
 
 register_activation_hook(__FILE__, [$awps, 'activate']);
 register_uninstall_hook(__FILE__, [$awps, 'deactivate']);
-
-// TODO: Support translations

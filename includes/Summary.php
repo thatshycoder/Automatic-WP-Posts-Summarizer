@@ -22,7 +22,7 @@ class Summary
     private $options;
 
     /**
-     * 
+     * Custom class for styling content summary div
      */
     private const SUMMARY_CLASS = 'awps_summary';
 
@@ -134,7 +134,7 @@ class Summary
      */
     private function render_summary_output($summary, $content = '', $title = ''): string
     {
-        $summary_title = __('A Quick Summary');
+        $summary_title = __('A Quick Summary', 'automatic-wp-posts-summarizer');
         $output = '';
 
         if (!empty($title)) {

@@ -42,7 +42,7 @@ class Settings
 
         add_settings_field(
             self::ENABLE_SUMMARIZER_OPTION,
-            __('Enable Summarizer', 'awps'),
+            __('Enable Summarizer', 'automatic-wp-posts-summarizer'),
             [$this, 'checkbox_field_cb'],
             'awps',
             'awps',
@@ -53,7 +53,7 @@ class Settings
 
         add_settings_field(
             self::DISPLAY_SUMMARIZER_ON_POSTS_OPTION,
-            __('Display Summary on All Posts', 'awps'),
+            __('Display Summary on All Posts', 'automatic-wp-posts-summarizer'),
             [$this, 'checkbox_field_cb'],
             'awps',
             'awps',
@@ -64,7 +64,7 @@ class Settings
 
         add_settings_field(
             self::SUMMARY_POSITION_OPTION,
-            __('Display Summary', 'awps'),
+            __('Display Summary', 'automatic-wp-posts-summarizer'),
             [$this, 'dropdown_field_cb'],
             'awps',
             'awps',
@@ -75,7 +75,7 @@ class Settings
 
         add_settings_field(
             self::SUMMARY_LENGTH_OPTION,
-            __('Summary Sentences Length', 'awps'),
+            __('Summary Sentences Length', 'automatic-wp-posts-summarizer'),
             [$this, 'number_field_cb'],
             'awps',
             'awps',
@@ -86,7 +86,7 @@ class Settings
 
         add_settings_field(
             self::SUMMARY_TITLE_OPTION,
-            __('Summary Title', 'awps'),
+            __('Summary Title', 'automatic-wp-posts-summarizer'),
             [$this, 'text_field_cb'],
             'awps',
             'awps',
@@ -97,7 +97,7 @@ class Settings
 
         add_settings_field(
             self::API_KEY_OPTION,
-            __('MeaningCloud API Key', 'awps'),
+            __('MeaningCloud API Key', 'automatic-wp-posts-summarizer'),
             [$this, 'text_field_cb'],
             'awps',
             'awps',
@@ -129,8 +129,8 @@ class Settings
 ?>
         <div class="">
             <select name="awps_options[<?php echo esc_attr($args['label_for']); ?>]">
-                <option value="before" <?php echo $before ?>>Before Post Content</option>
-                <option value="after" <?php echo $after ?>>After Post Content</option>
+                <option value="before" <?php echo $before ?>><?php _e('Before Post Content', 'automatic-wp-posts-summarizer') ?></option>
+                <option value="after" <?php echo $after ?>><?php _e('After Post Content', 'automatic-wp-posts-summarizer') ?></option>
             </select>
         </div>
     <?php
