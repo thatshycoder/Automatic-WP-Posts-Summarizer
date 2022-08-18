@@ -9,19 +9,22 @@ class Awps
     private static $instance;
 
     /**
-     * Settings instance
+     * Settings class instance
+     * 
      * @var Settings
      */
     public $settings;
 
     /**
-     * Summarizer instance
+     * Summarizer class instance
+     * 
      * @var Summarizer
      */
     private $summarizer;
 
     /**
-     * Summary instance
+     * Summary class instance
+     * 
      * @var Summary
      */
     private $summary;
@@ -56,6 +59,9 @@ class Awps
         return self::$instance;
     }
 
+    /**
+     * Things to do when plugin is activated
+     */
     public function activate(): void
     {
         // create needed db table
@@ -66,6 +72,9 @@ class Awps
         add_option($this->settings::OPTIONS);
     }
 
+    /**
+     * Add summary table to db
+     */
     public function create_summarizer_table(): void
     {
         global $wpdb;
@@ -78,19 +87,29 @@ class Awps
         maybe_create_table($wpdb->prefix . AWPS_SUMMARIZER_TABLE, $query);
     }
 
+    /**
+     * Things to do when plugin is being deactivated
+     */
     public function deactivate(): void
     {
         // cleanup db
-        $this->delete_summarizer_table();
+        $this->delete_summary_table();
         delete_option('awps_options');
     }
 
-    private function delete_summarizer_table(): mixed
+    /**
+     * Delete summary table from db
+     * 
+     * @return bool
+     */
+    private function delete_summary_table(): bool
     {
         global $wpdb;
 
         $table_name = $wpdb->prefix . AWPS_SUMMARIZER_TABLE;
         $query = "DROP table $table_name";
-        return $wpdb->query($query);
+        $wpdb->query($query);
+
+        return true;
     }
 }

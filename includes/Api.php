@@ -17,6 +17,13 @@ class Api
         $this->key = $key;
     }
 
+    /**
+     * Get text summary via MeaningCloud text summarization API
+     * 
+     * @param string $text
+     * @param int $length
+     * @return string
+     */
     public function get_text_summary($text, $length): string
     {
         $summary = '';

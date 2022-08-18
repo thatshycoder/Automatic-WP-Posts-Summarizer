@@ -6,8 +6,24 @@ defined('ABSPATH') || exit;
 
 class Summary
 {
-    private $options;
+
+    /**
+     * An instance of the settings class
+     * 
+     * @var Settings
+     */
     private $settings;
+
+    /**
+     * AWPS setting options value
+     * 
+     * @var array
+     */
+    private $options;
+
+    /**
+     * 
+     */
     private const SUMMARY_CLASS = 'awps_summary';
 
     public function __construct($awps)
