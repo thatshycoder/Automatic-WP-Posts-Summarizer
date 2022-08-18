@@ -2,6 +2,8 @@
 
 namespace Awps;
 
+defined('ABSPATH') || exit;
+
 use Exception;
 
 class Api

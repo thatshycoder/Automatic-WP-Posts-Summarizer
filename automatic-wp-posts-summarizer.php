@@ -7,7 +7,7 @@
  * Description:		AI Powered automatic posts summarization plugin for WordPress
  * Version:		    1.0
  * Plugin URI:		https://wordpress.org/plugins/automatic-wp-posts-summarizer
- * Requires PHP:	7.4
+ * Requires PHP:	8.0
  * Requires at least:	5.1
  * License: GPLv3 or later
  */
