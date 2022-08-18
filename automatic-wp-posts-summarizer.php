@@ -9,6 +9,7 @@
  * Plugin URI:		https://wordpress.org/plugins/automatic-wp-posts-summarizer
  * Requires PHP:	7.4
  * Requires at least:	5.1
+ * License: GPLv3 or later
  */
 
 // Exit if accessed directly
