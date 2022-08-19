@@ -159,7 +159,7 @@ class Summary
             }
         }
 
-        return apply_filters('awps_summary', $output);
+        return apply_filters('awps_summary', wp_kses_post($output));
     }
 
     /**
@@ -181,6 +181,6 @@ class Summary
             $summary =  strip_shortcodes($result->summary);
         }
 
-        return $summary;
+        return sanitize_text_field($summary);
     }
 }

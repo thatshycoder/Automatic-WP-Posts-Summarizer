@@ -5,7 +5,7 @@
  * Author:		            Shycoder
  * Author URI:		        https://shycoder.com/
  * Description:		        AI Powered automatic posts summarization plugin for WordPress
- * Version:		            1.0
+ * Version:		            1.0.0
  * Plugin URI:		        https://wordpress.org/plugins/automatic-wp-posts-summarizer
  * Requires PHP:	        8.0
  * Requires at least:	    5.1

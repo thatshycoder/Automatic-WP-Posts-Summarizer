@@ -44,7 +44,7 @@ class Api
                 if (array_key_exists('summary', $response)) {
                     return $response['summary'];
                 } else {
-                    throw new Exception("Error fetching summary");
+                    throw new Exception("Error fetching summary" . json_encode($response));
                 }
             } else {
                 throw new Exception("Error fetching summary");

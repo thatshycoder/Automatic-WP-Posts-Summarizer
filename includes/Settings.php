@@ -129,8 +129,8 @@ class Settings
 ?>
         <div class="">
             <select name="awps_options[<?php echo esc_attr($args['label_for']); ?>]">
-                <option value="before" <?php echo $before ?>><?php _e('Before Post Content', 'automatic-wp-posts-summarizer') ?></option>
-                <option value="after" <?php echo $after ?>><?php _e('After Post Content', 'automatic-wp-posts-summarizer') ?></option>
+                <option value="before" <?php echo esc_attr($before); ?>><?php esc_attr_e('Before Post Content', 'automatic-wp-posts-summarizer') ?></option>
+                <option value="after" <?php echo esc_attr($after); ?>><?php esc_attr_e('After Post Content', 'automatic-wp-posts-summarizer') ?></option>
             </select>
         </div>
     <?php
@@ -153,7 +153,7 @@ class Settings
         }
     ?>
         <div class="">
-            <input type="checkbox" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="checked" <?php echo $checked; ?>>
+            <input type="checkbox" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="checked" <?php echo esc_attr($checked); ?>>
         </div>
         <?php
     }
@@ -170,12 +170,12 @@ class Settings
             if ($args['label_for'] === self::API_KEY_OPTION) {
         ?>
                 <div class="">
-                    <input type="text" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" placeholder="<?php echo isset($this->options[$args['label_for']]) ? '****************' : ''; ?>">
+                    <input type="text" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" placeholder="<?php echo isset($this->options[$args['label_for']]) ? esc_attr('****************') : ''; ?>">
                 </div>
             <?php } else {
             ?>
                 <div class="">
-                    <input type="text" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($this->options[$args['label_for']]) ? $this->options[$args['label_for']] : ''; ?>">
+                    <input type="text" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($this->options[$args['label_for']]) ? esc_attr($this->options[$args['label_for']]) : ''; ?>">
                 </div>
         <?php
             }
@@ -192,7 +192,7 @@ class Settings
 
         ?>
         <div class="">
-            <input type="number" min="1" max="5" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($this->options[$args['label_for']]) ? $this->options[$args['label_for']] : ''; ?>">
+            <input type="number" min="1" max="5" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($this->options[$args['label_for']]) ? esc_attr($this->options[$args['label_for']]) : ''; ?>">
         </div>
     <?php
     }
@@ -227,7 +227,7 @@ class Settings
         }
     ?>
         <div class="wrap">
-            <h1>Automatic WP Posts Summarizer</h1>
+            <h1><?php echo esc_attr('Automatic WP Posts Summarizer'); ?></h1>
             <div class="awps-page-body">
                 <form action="options.php" method="post">
                     <?php settings_errors('awps_messages'); ?>

@@ -66,9 +66,7 @@ class Summarizer
 
                 if (!empty($post_summary)) {
 
-                    $post_summary = strip_shortcodes($post_summary);
                     $summary_data = ['post_id' => $post_id, 'summary' => $post_summary];
-
                     // check if summary exists and then update it or insert new
                     return $wpdb->replace($wpdb->prefix . AWPS_SUMMARIZER_TABLE, $summary_data, ['%d', '%s']);
                 } else {
@@ -90,10 +88,16 @@ class Summarizer
      */
     public function get_post_summary_from_api($post, $length): string
     {
-        if (!is_null($this->api)) {
-            $summary = $this->api->get_text_summary($post, $length);
-            $summary = str_replace('[...]', '', $summary);
-            return $summary;
+        if (!empty($post)) {
+
+            if (!is_null($this->api)) {
+
+                $post = strip_shortcodes($post);
+                $summary = $this->api->get_text_summary($post, $length);
+                $summary = str_replace('[...]', '', $summary);
+
+                return sanitize_text_field($summary);
+            }
         }
 
         return '';

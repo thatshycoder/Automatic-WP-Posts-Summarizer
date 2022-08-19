@@ -94,7 +94,7 @@ class Awps
     {
         // cleanup db
         $this->delete_summary_table();
-        delete_option('awps_options');
+        delete_option($this->settings::OPTIONS);
     }
 
     /**

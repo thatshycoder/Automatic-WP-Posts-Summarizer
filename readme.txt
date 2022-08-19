@@ -4,8 +4,8 @@ Donate link: https://flutterwave.com/pay/emc-donate
 Tags: summary, summarizer, AI,
 Requires at least: 4.0
 Tested up to: 6.0.1
-Stable tag: 6.0.1
-Requires PHP: 7.0
+Stable tag: 1.0.0
+Requires PHP: 8.0
 License: GNU General Public License
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
