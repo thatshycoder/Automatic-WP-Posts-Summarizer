@@ -165,20 +165,17 @@ class Settings
      */
     public function text_field_cb($args): void
     {
-        if (isset($this->options[$args['label_for']])) {
-
-            if ($args['label_for'] === self::API_KEY_OPTION) {
+        if ($args['label_for'] === self::API_KEY_OPTION) {
         ?>
-                <div class="">
-                    <input type="text" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" placeholder="<?php echo isset($this->options[$args['label_for']]) ? esc_attr('****************') : ''; ?>">
-                </div>
-            <?php } else {
-            ?>
-                <div class="">
-                    <input type="text" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($this->options[$args['label_for']]) ? esc_attr($this->options[$args['label_for']]) : ''; ?>">
-                </div>
+            <div class="">
+                <input type="text" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" placeholder="<?php echo isset($this->options[$args['label_for']]) ? esc_attr('****************') : ''; ?>">
+            </div>
+        <?php } else {
+        ?>
+            <div class="">
+                <input type="text" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($this->options[$args['label_for']]) ? esc_attr($this->options[$args['label_for']]) : ''; ?>">
+            </div>
         <?php
-            }
         }
     }
 
@@ -189,7 +186,6 @@ class Settings
      */
     public function number_field_cb($args): void
     {
-
         ?>
         <div class="">
             <input type="number" min="1" max="5" name="awps_options[<?php echo esc_attr($args['label_for']); ?>]" value="<?php echo isset($this->options[$args['label_for']]) ? esc_attr($this->options[$args['label_for']]) : ''; ?>">
