@@ -32,10 +32,17 @@ class Summarizer
                 $api_key = \Awps\SettingsUtils::decrypt($api_key);
 
                 $this->api = new Api($api_key);
-                $this->summary_length = (int) $option[$awps->settings::SUMMARY_LENGTH_OPTION];
 
-                // ensure summary length is not empty
-                if ($this->summary_length == 0) {
+                if (isset($option[$awps->settings::SUMMARY_LENGTH_OPTION])) {
+                    
+                    $this->summary_length = (int) $option[$awps->settings::SUMMARY_LENGTH_OPTION];
+
+                    // ensure summary length is not empty
+                    if ($this->summary_length == 0) {
+                        $this->summary_length = 2;
+                    }
+
+                } else {
                     $this->summary_length = 2;
                 }
             }

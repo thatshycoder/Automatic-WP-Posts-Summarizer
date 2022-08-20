@@ -22,7 +22,11 @@ class SettingsUtils
         foreach ($inputs as $input_key => $input_value) {
 
             if (empty($input_value)) {
-                $sanitized_input[$input_key] = $options[$input_key];
+
+                if (isset($options[$input_key])) {
+
+                    $sanitized_input[$input_key] = $options[$input_key];
+                }
             } else {
 
                 $input_value = trim(strip_tags(stripslashes($input_value)));
