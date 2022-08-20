@@ -83,7 +83,7 @@ class SettingsUtils
     {
         $decryption_keys = self::get_keys();
 
-        if (!empty($encryption_keys)) {
+        if (!empty($decryption_keys)) {
             return openssl_decrypt(base64_decode($key), AWPS_ENCRYPTION_METHOD, $decryption_keys['key'], 0, $decryption_keys['iv']);
         }
     }
