@@ -2,10 +2,20 @@
 
 namespace Awps;
 
+use Awps\Templates\Main;
+
 defined('ABSPATH') || exit;
 
 class Summary
 {
+
+    /**
+     * An instance of AwpsDb
+     * 
+     * @var AwpsDb
+     */
+
+    private $AwpsDb;
 
     /**
      * An instance of the settings class
@@ -21,13 +31,9 @@ class Summary
      */
     private $options;
 
-    /**
-     * Custom class for styling content summary div
-     */
-    private const SUMMARY_CLASS = 'awps_summary';
-
     public function __construct($awps)
     {
+        $this->AwpsDb = $awps->AwpsDb;
         $this->settings = $awps->settings;
         $this->options = $awps->settings->options;
     }
@@ -61,7 +67,7 @@ class Summary
                         $this->options[$this->settings::DISPLAY_SUMMARIZER_ON_POSTS_OPTION] === 'checked'
                     ) {
 
-                        $summary = $this->get_post_summary_from_db(get_the_ID());
+                        $summary = $this->AwpsDb->get_post_summary_from_db(get_the_ID());
 
                         if (!empty($summary)) {
 
@@ -76,7 +82,7 @@ class Summary
     }
 
     /**
-     * Renders AWPS shortcode
+     * Renders Awps shortcode output
      * 
      * @param array $atts
      */
@@ -96,7 +102,7 @@ class Summary
                     !isset($this->options[$this->settings::DISPLAY_SUMMARIZER_ON_POSTS_OPTION])
                 ) {
 
-                    $summary = $this->get_post_summary_from_db(get_the_ID());
+                    $summary = $this->AwpsDb->get_post_summary_from_db(get_the_ID());
 
                     // process shortcode attributes
                     if (!empty($atts)) {
@@ -126,7 +132,7 @@ class Summary
     }
 
     /**
-     * Customizes how the summary is displayed in post content
+     * Render summary output with a template
      * 
      * @param string $content
      * @param string $summary
@@ -136,51 +142,32 @@ class Summary
     {
         $summary_title = __('A Quick Summary', 'automatic-wp-posts-summarizer');
         $output = '';
+        $position = 'before';
 
-        if (!empty($title)) {
+        if ($title) {
             $summary_title = $title;
         } elseif (isset($this->options[$this->settings::SUMMARY_TITLE_OPTION])) {
-            if (!empty($this->options[$this->settings::SUMMARY_TITLE_OPTION])) {
+            if ($this->options[$this->settings::SUMMARY_TITLE_OPTION]) {
 
                 $summary_title = $this->options[$this->settings::SUMMARY_TITLE_OPTION];
             }
         }
 
-        $output .= '<h3>' . $summary_title . '</h3>';
-        $output .= '<p>' . $summary . '</p>';
-
         if (isset($this->options[$this->settings::SUMMARY_POSITION_OPTION])) {
             if ($this->options[$this->settings::SUMMARY_POSITION_OPTION] === 'after') {
 
-                $output = $content . '<div class="' . self::SUMMARY_CLASS . '">' . $output . '</div>';
-            } else {
-
-                $output = '<div class="' . self::SUMMARY_CLASS . '">' . $output . '</div>' . $content;
+                $position = 'after';
             }
         }
 
+        $args = [
+            'title'     => $summary_title,
+            'summary'   => $summary,
+            'position'  => $position,
+            'content'   => $content,
+        ];
+
+        $output = Main::render($args);
         return apply_filters('awps_summary', wp_kses_post($output));
-    }
-
-    /**
-     * Gets cached summary from db
-     * 
-     * @param int $post_id
-     * @return string
-     */
-    private function get_post_summary_from_db($post_id): string
-    {
-        global $wpdb;
-
-        $summary = '';
-        $table = $wpdb->prefix . AWPS_SUMMARIZER_TABLE;
-        $query = $wpdb->prepare("SELECT `summary` FROM $table WHERE `post_id` = %d", $post_id);
-        $result = $wpdb->get_row($query);
-
-        if (!empty($result) && isset($result->summary)) {
-            $summary =  strip_shortcodes($result->summary);
-        }
-
-        return sanitize_text_field($summary);
     }
 }
