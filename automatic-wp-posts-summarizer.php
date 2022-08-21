@@ -23,4 +23,7 @@ defined('AWPS_SUMMARIZER_TABLE')   || define('AWPS_SUMMARIZER_TABLE', 'awps_summ
 require_once 'vendor/autoload.php';
 
 $awps = Awps\Awps::get_instance();
+
+
 register_activation_hook(__FILE__, [$awps, 'activate']);
+register_uninstall_hook(__FILE__, [$awps, 'deactivate']);
