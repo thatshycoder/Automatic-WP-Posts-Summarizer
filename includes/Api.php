@@ -36,7 +36,7 @@ class Api
         try {
 
             $url = self::ENDPOINT . '?' . http_build_query($params, '', '&');
-            $request = wp_remote_post($url);
+            $request = wp_remote_request($url);
 
             if (!is_wp_error($request)) {
                 $response = json_decode($request['body'], true);
@@ -44,10 +44,11 @@ class Api
                 if (array_key_exists('summary', $response)) {
                     return $response['summary'];
                 } else {
+
                     throw new Exception("Error fetching summary" . json_encode($response));
                 }
             } else {
-                throw new Exception("Error fetching summary");
+                throw new Exception("Error fetching summary" . json_encode($request));
             }
         } catch (Exception $e) {
             // log error

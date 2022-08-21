@@ -8,6 +8,24 @@ class AwpsDb
 {
 
     /**
+     * Save post to summarizer table
+     * 
+     * @param int $post_id
+     * @param string $summary
+     */
+    public function save_post_summary_to_db($post_id, $summary): void
+    {
+        global $wpdb;
+
+        if (!empty($post_id) && !empty($summary)) {
+
+            $summary_data = ['post_id' => $post_id, 'summary' => $summary];
+            // check if summary exists and then update it or insert new
+            $wpdb->replace($wpdb->prefix . AWPS_SUMMARIZER_TABLE, $summary_data, ['%d', '%s']);
+        }
+    }
+
+    /**
      * Gets cached summary from db
      * 
      * @param int $post_id

@@ -6,16 +6,27 @@ defined('ABSPATH') || exit;
 
 class Summarizer
 {
+
     /**
-     * Instance of Api
+     * Api class instance
+     * 
      * @var Api
      */
     private $api;
+
+    /**
+     * AwpsDb class instance
+     * 
+     * @var AwpsDb
+     */
+
+    private $AwpsDb;
 
     private $summary_length;
 
     public function __construct($awps)
     {
+        $this->AwpsDb = $awps->AwpsDb;
         $option = $awps->settings->options;
 
         if (
@@ -34,14 +45,13 @@ class Summarizer
                 $this->api = new Api($api_key);
 
                 if (isset($option[$awps->settings::SUMMARY_LENGTH_OPTION])) {
-                    
+
                     $this->summary_length = (int) $option[$awps->settings::SUMMARY_LENGTH_OPTION];
 
                     // ensure summary length is not empty
                     if ($this->summary_length == 0) {
                         $this->summary_length = 2;
                     }
-
                 } else {
                     $this->summary_length = 2;
                 }
@@ -66,19 +76,15 @@ class Summarizer
         if (isset($this->api)) {
             if (!empty($this->api)) {
 
-                global $wpdb;
-
                 $post = get_post($post_id);
                 $post_summary = $this->get_post_summary_from_api($post->post_content, $this->summary_length);
 
                 if (!empty($post_summary)) {
 
-                    $summary_data = ['post_id' => $post_id, 'summary' => $post_summary];
-                    // check if summary exists and then update it or insert new
-                    return $wpdb->replace($wpdb->prefix . AWPS_SUMMARIZER_TABLE, $summary_data, ['%d', '%s']);
+                    return $this->AwpsDb->save_post_summary_to_db($post_id, $post_summary);
                 } else {
 
-                    // Add an admin notice later to show warning
+                    // TODO: Add an admin notice later to show warning
                     // couldn't generate a summary for the post
                 }
             }
