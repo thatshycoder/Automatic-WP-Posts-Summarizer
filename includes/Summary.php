@@ -71,7 +71,7 @@ class Summary
 
                         if (!empty($summary)) {
 
-                            $content = $this->render_summary_output($summary, $content);
+                            return $this->render_summary_output($summary, $content);
                         }
                     }
                 }
