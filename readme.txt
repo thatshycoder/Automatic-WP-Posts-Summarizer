@@ -9,7 +9,7 @@ Requires PHP: 8.0
 License: GNU General Public License
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
-AI Powered automatic posts summarization plugin for WordPress
+AI powered automatic posts summarization plugin for WordPress.
 
 == Description ==
 
@@ -18,25 +18,23 @@ meaningful summary of posts.
 
 == Features ==
 
-- Supports simple shortcode that lets you display a generated post summary before or after the post content.
-
-- Customize how the summary should be displayed. Title, summary length(number of sentences).
-
-- Setting Page that allows you to automatically display summary for all posts, this prevents having to copy and paste the shortcode on all pages.
-
-- Connect to meaningcloud API.
+- Automatically generate posts summary.
+- Display summary on all posts or only specific posts.
+- Customizable shortcode.
+- Ability to also manually add summary to posts if you prefer.
+- Connect to MeaningCloud API
 
 == Shortcode ==
 
-Show summary in a post with:
+**Show summary in a post**
 
 [awps]
 
-Show summary in a post with custom title:
+**Show summary in a post with a custom title**
 
 [awps title="Post Summary"]
 
-Show custom summary in a post
+**Show custom summary in a post**
 
 [awps summary="I love automatic WordPress post summarizer plugin but here is the summary I prefer for this post"]
 
@@ -51,19 +49,22 @@ Show custom summary in a post
 
 You can customize the shortcode with the following options:
 
-*   `title`     Summary widget title
+*   `title`     Summary widget title.
 *   `summary`   Custom summary to replace automatically generated summary with.
 
+Example:
+
+[awps title="Post Summary" summary="I love automatic WordPress post summarizer plugin but here is the summary I prefer for this post"]
 
 == Frequently Asked Questions ==
 
 = How do you generate post summary automatically? =
 
-With the help of [MeaningCloud Text Summarization API,](https://www.meaningcloud.com/developer/summarization), AWPS uses Artificial Intelligence 
-and Natural Language Processing(NLP) to generate posts summary.
+With the help of [MeaningCloud Text Summarization API,](https://www.meaningcloud.com/developer/summarization), 
+the plugin is able to use Artificial Intelligence and Natural Language Processing(NLP) to generate posts summary.
 
 = What if I'm not satisfied with the generated summary? = 
 
-You can use the ** summary ** option in the plugin shortcode to add your custom summary. 
+You can use the **summary** option in the plugin shortcode to add your preferred summary. 
 
 Example:  [awps summary="My preferred summary"]
