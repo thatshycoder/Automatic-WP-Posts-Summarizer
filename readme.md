@@ -1,13 +1,14 @@
 ## Automatic WP Posts Summarizer
 
-A plugin that uses Artificial Intelligence and Natural Language Processing (NLP) to generate an accurate and meaningful summary of posts.
+A plugin that uses Artificial Intelligence and Natural Language Processing (NLP) to generate an accurate and
+meaningful summary of posts.
 
 ## Features
 
-- Supports simple shortcode that lets you display a generated post summary before or after the post content.
+- Automatically generate posts summary.
+- Display summary on all posts or only specific posts.
+- Customizable shortcode.
+- Ability to also manually add summary to posts if you prefer.
+- Connect to MeaningCloud API
 
-- Customize how the summary should be displayed. Title, summary length(number of sentences).
-
-- Setting Page that allows you to automatically display summary for all posts, this prevents having to copy and paste the shortcode on all pages.
-
-- Connect to meaningcloud API.
+[https://wordpress.org/plugins/automatic-wp-posts-summarizer/](https://wordpress.org/plugins/automatic-wp-posts-summarizer/)
