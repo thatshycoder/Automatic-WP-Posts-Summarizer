@@ -52,13 +52,17 @@ You can customize the shortcode with the following options:
 *   **title**  -   Summary widget title.
 *   **summary** -   Custom summary to replace automatically generated summary with.
 
+Example:
+
+**[awps title="Post Summary" summary="I love automatic WordPress post summarizer plugin but here is the summary I prefer for this post"]**
+
 == CSS Customization ==
 
 Add **awps_summary** class to your CSS and style it to suit you. 
 
 Examples:
 
-```
+`
 .awps_summary {
     background: #f0dcdc;
     padding: 10px 50px;
@@ -72,11 +76,11 @@ Examples:
     font-size: 28px;
 }
 
-```
+`
 
 Or
 
-```
+`
 .awps_summary {
     background: #333360;
     padding: 30px 50px;
@@ -90,11 +94,7 @@ Or
     font-size: 24px;
 }
 
-```
-
-Example:
-
-**[awps title="Post Summary" summary="I love automatic WordPress post summarizer plugin but here is the summary I prefer for this post"]**
+`
 
 == Frequently Asked Questions ==
 
