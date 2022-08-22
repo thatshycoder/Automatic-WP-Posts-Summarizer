@@ -61,18 +61,4 @@ class AwpsDb
         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
         maybe_create_table($wpdb->prefix . AWPS_SUMMARIZER_TABLE, $query);
     }
-
-    /**
-     * Delete summary table from db
-     * 
-     * @return bool
-     */
-    public function delete_summary_table(): void
-    {
-        global $wpdb;
-
-        $table_name = $wpdb->prefix . AWPS_SUMMARIZER_TABLE;
-        $query = "DROP table $table_name";
-        $wpdb->query($query);
-    }
 }

@@ -4,8 +4,8 @@ Donate link: https://flutterwave.com/pay/emc-donate
 Tags: summary, summarizer, AI,
 Requires at least: 4.0
 Tested up to: 6.0.1
-Stable tag: 1.0.0
-Requires PHP: 8.0
+Stable tag: 1.0.1
+Requires PHP: 5.2.4
 License: GNU General Public License
 License URI: https://www.gnu.org/licenses/gpl-3.0.en.html
 
@@ -42,19 +42,59 @@ meaningful summary of posts.
 
 1. Get your api key from [MeaningCloud](https://www.meaningcloud.com/developer/account)
 2. Install the plugin via WordPress dashboard / or download the ZIP achieve from WordPress repository
-3. Go to the plugin settings page ** WordPress Dashboard ** > ** Posts ** > Automatic WP Posts Summarizer
+3. Go to the plugin settings page **WordPress Dashboard ** > **Posts** > Automatic WP Posts Summarizer
 4. Paste the api key in the api key field and configure other settings to suit you.
 
-== Customization == 
+== Shortcode Customization == 
 
 You can customize the shortcode with the following options:
 
-*   `title`     Summary widget title.
-*   `summary`   Custom summary to replace automatically generated summary with.
+*   **title**  -   Summary widget title.
+*   **summary** -   Custom summary to replace automatically generated summary with.
+
+== CSS Customization ==
+
+Add **awps_summary** class to your CSS and style it to suit you. 
+
+Examples:
+
+```
+.awps_summary {
+    background: #f0dcdc;
+    padding: 10px 50px;
+    margin-bottom: 40px;
+    border: 2px solid #ff0707;
+    border-style: dashed;
+}
+
+.awps_summary h3 {
+    font-weight: 500;
+    font-size: 28px;
+}
+
+```
+
+Or
+
+```
+.awps_summary {
+    background: #333360;
+    padding: 30px 50px;
+    color: #fff;
+    font-size: 15px;
+    margin-bottom: 40px;
+}
+
+.awps_summary h3 {
+    font-weight: 500;
+    font-size: 24px;
+}
+
+```
 
 Example:
 
-[awps title="Post Summary" summary="I love automatic WordPress post summarizer plugin but here is the summary I prefer for this post"]
+**[awps title="Post Summary" summary="I love automatic WordPress post summarizer plugin but here is the summary I prefer for this post"]**
 
 == Frequently Asked Questions ==
 
@@ -67,4 +107,4 @@ the plugin is able to use Artificial Intelligence and Natural Language Processin
 
 You can use the **summary** option in the plugin shortcode to add your preferred summary. 
 
-Example:  [awps summary="My preferred summary"]
+Example:  **[awps summary="My preferred summary"]**

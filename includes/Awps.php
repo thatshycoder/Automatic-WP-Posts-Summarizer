@@ -79,14 +79,4 @@ class Awps
         // initialize needed option
         add_option($this->settings::OPTIONS);
     }
-
-    /**
-     * Things to do when plugin is being deactivated
-     */
-    public function deactivate(): void
-    {
-        // cleanup db
-        $this->AwpsDb->delete_summary_table();
-        delete_option($this->settings::OPTIONS);
-    }
 }

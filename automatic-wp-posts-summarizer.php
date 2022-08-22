@@ -5,10 +5,10 @@
  * Author:		            Shycoder
  * Author URI:		        https://shycoder.com/
  * Description:		        AI Powered automatic posts summarization plugin for WordPress
- * Version:		            1.0.0
+ * Version:		            1.0.1
  * Plugin URI:		        https://wordpress.org/plugins/automatic-wp-posts-summarizer
  * Requires PHP:	        8.0
- * Requires at least:	    5.1
+ * Requires at least:	    5.2
  * Text Domain:             automatic-wp-posts-summarizer
  * License:                 GPLv3 or later
  */
@@ -26,4 +26,15 @@ $awps = Awps\Awps::get_instance();
 
 
 register_activation_hook(__FILE__, [$awps, 'activate']);
-register_uninstall_hook(__FILE__, [$awps, 'deactivate']);
+register_uninstall_hook(__FILE__, 'uninstall');
+
+function uninstall()
+{
+    global $wpdb;
+
+    delete_option('awps_options');
+
+    $table_name = $wpdb->prefix . AWPS_SUMMARIZER_TABLE;
+    $query = "DROP table $table_name";
+    $wpdb->query($query);
+}
